@@ -6,21 +6,24 @@
     <title>Transporte Turístico Manantial S.A.C. | Lima - Churín</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
-<body class="bg-slate-950 text-white font-sans antialiased min-h-screen flex flex-col justify-between">
+<body class="bg-slate-50 text-slate-900 font-sans antialiased min-h-screen flex flex-col justify-between">
 
     <!-- Cabecera -->
-    <header class="border-b border-slate-800 bg-slate-950/80 backdrop-blur-md sticky top-0 z-50">
+    <header class="border-b border-slate-200 bg-white/90 backdrop-blur-md sticky top-0 z-50 shadow-sm">
         <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
-            <div class="flex items-center space-x-2.5">
-                <div class="w-9 h-9 rounded-xl bg-emerald-500 text-slate-950 font-extrabold flex items-center justify-center text-lg">M</div>
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-slate-900 text-white font-extrabold flex items-center justify-center overflow-hidden shadow-sm border border-slate-800">
+                    <img src="assets/img/manantialtours_logo.jpg" alt="Manantial Logo" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <span class="hidden text-sm">M</span>
+                </div>
                 <div>
-                    <span class="font-extrabold text-sm block leading-tight">MANANTIAL TOURS S.A.C.</span>
-                    <span class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Transporte Turístico</span>
+                    <span class="font-extrabold text-sm block leading-tight text-slate-900">MANANTIAL TOURS S.A.C.</span>
+                    <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">Transporte Turístico</span>
                 </div>
             </div>
-            <a href="https://wa.me/51946704105" target="_blank" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-extrabold px-3.5 py-2 rounded-xl flex items-center space-x-1.5 transition">
+            <a href="https://wa.me/51946704105" target="_blank" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-extrabold px-3.5 py-2 rounded-xl flex items-center space-x-1.5 transition shadow-sm">
                 <i class="fa-brands fa-whatsapp text-sm"></i>
                 <span>WhatsApp</span>
             </a>
@@ -28,26 +31,39 @@
     </header>
 
     <!-- Cuerpo Principal -->
-    <main class="max-w-3xl mx-auto px-4 py-20 text-center space-y-6">
-        <span class="inline-block bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-extrabold px-4 py-1.5 rounded-full">
-            Ruta Oficial Lima ↔ Churín & Full Days
-        </span>
-        <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight">
+    <main class="max-w-3xl mx-auto px-4 py-16 text-center space-y-6">
+        
+        <!-- LOGO PRINCIPAL: Contenedor ajustado, elegante y sin caja monse -->
+        <div class="flex justify-center mb-1">
+            <div class="w-32 h-32 sm:w-36 sm:h-36 rounded-full bg-white border-2 border-slate-200/80 shadow-md flex items-center justify-center overflow-hidden p-2 transition-transform hover:scale-105">
+                <img src="assets/img/manantialtours_logo.jpg" alt="Manantial Tours Logo Principal" class="w-full h-full object-cover rounded-full" onerror="this.onerror=null; this.src='https://via.placeholder.com/150?text=Manantial';">
+            </div>
+        </div>
+
+        <!-- Contenedor de Ruta -->
+        <div>
+            <span class="inline-flex items-center space-x-2 bg-slate-900 text-white text-xs sm:text-sm font-extrabold px-5 py-2.5 rounded-2xl shadow-md border border-slate-800">
+                <i class="fa-solid fa-route text-emerald-400"></i>
+                <span class="tracking-wide">Ruta Oficial Lima ↔ Churín & Full Days</span>
+            </span>
+        </div>
+
+        <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-slate-900">
             Próximamente
         </h1>
-        <p class="text-slate-400 text-base sm:text-lg max-w-xl mx-auto font-medium">
+        <p class="text-slate-600 text-base sm:text-lg max-w-xl mx-auto font-medium">
             Estamos preparando nuestra nueva plataforma digital para que puedas asegurar tus pasajes y reservar unidades turísticas de forma rápida y segura.
         </p>
         <div class="pt-4">
-            <a href="https://wa.me/51999999999" target="_blank" class="inline-flex items-center space-x-2 bg-white hover:bg-slate-100 text-slate-950 font-extrabold px-6 py-3.5 rounded-2xl shadow-lg transition">
-                <i class="fa-solid fa-headset text-emerald-600"></i>
+            <a href="https://wa.me/51946704105" target="_blank" class="inline-flex items-center space-x-2 bg-slate-900 hover:bg-slate-800 text-white font-extrabold px-6 py-3.5 rounded-2xl shadow-md transition">
+                <i class="fa-solid fa-headset text-emerald-400"></i>
                 <span>Atención inmediata por WhatsApp</span>
             </a>
         </div>
     </main>
 
     <!-- Pie de página -->
-    <footer class="border-t border-slate-900 py-6 px-4 text-center text-slate-500 text-xs">
+    <footer class="border-t border-slate-200 bg-white py-6 px-4 text-center text-slate-500 text-xs">
         <p>© 2026 Transporte Turístico Manantial S.A.C. • Todos los derechos reservados.</p>
     </footer>
 
