@@ -58,12 +58,12 @@
         </div>
 
         <!-- Título principal estilo RedBus -->
-        <div class="space-y-1">
+        <div class="space-y-1.5">
             <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
                 El poder de elegir tu viaje a Churín
             </h1>
-            <p class="text-slate-500 text-xs sm:text-sm font-semibold">
-                Pagos seguros, atención personalizada y unidades exclusivas
+            <p class="text-slate-500 text-xs sm:text-sm font-semibold max-w-lg mx-auto leading-relaxed">
+                Próximamente en mejora: estamos optimizando la plataforma para habilitar reservas directas de full days y pagos digitales con Yape.
             </p>
         </div>
 
@@ -107,7 +107,7 @@
                         <div class="text-slate-400 text-xs pr-1"><i class="fa-solid fa-chevron-down"></i></div>
                     </div>
                     <div id="dropdownDestino" class="hidden absolute left-0 right-0 top-full mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl z-50 p-2 space-y-1">
-                        <div class="text-[10px] font-bold uppercase text-slate-400 px-3 py-1">Rutas y Excursiones</div>
+                        <div class="text-[10px] font-bold uppercase text-slate-400 px-3 py-1">Rutas disponibles</div>
                         <div onclick="seleccionarDestino('Churín')" class="px-3 py-2.5 rounded-xl hover:bg-slate-100 cursor-pointer text-sm font-bold text-slate-800 flex items-center space-x-2">
                             <i class="fa-solid fa-location-dot text-emerald-600 text-xs"></i>
                             <span>Churín</span>
@@ -116,13 +116,15 @@
                             <i class="fa-solid fa-location-dot text-emerald-600 text-xs"></i>
                             <span>Lima (Óvalo Infantas)</span>
                         </div>
-                        <div onclick="seleccionarDestino('Full Day Churín (Baños Termales)')" class="px-3 py-2.5 rounded-xl hover:bg-slate-100 cursor-pointer text-sm font-bold text-slate-800 flex items-center space-x-2">
-                            <i class="fa-solid fa-route text-emerald-600 text-xs"></i>
-                            <span>Full Day Churín (Baños Termales)</span>
-                        </div>
                     </div>
                 </div>
 
+            </div>
+
+            <!-- Alerta visual de restricción (Origen y Destino iguales) -->
+            <div id="alertaError" class="hidden bg-amber-600 text-white text-xs font-bold px-3 py-2 rounded-xl flex items-center space-x-2 shadow-sm animate-pulse">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <span>La ciudad de origen y destino no pueden ser la misma.</span>
             </div>
 
             <!-- Fila Fecha de Viaje y Asientos -->
@@ -176,6 +178,19 @@
                 <i class="fa-solid fa-magnifying-glass text-emerald-400 text-sm"></i>
                 <span>Buscar Pasajes y Consultar</span>
             </button>
+        </div>
+
+        <!-- ETIQUETA DE ÉNFASIS: RUTA DE RETORNO (CERCANA A LAS OPCIONES) -->
+        <div class="max-w-2xl mx-auto w-full bg-emerald-50 border border-emerald-200 rounded-2xl p-3.5 flex items-center space-x-3 text-left shadow-sm">
+            <div class="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center flex-shrink-0 text-sm shadow-sm">
+                <i class="fa-solid fa-route"></i>
+            </div>
+            <div>
+                <span class="block text-[10px] font-extrabold uppercase tracking-wider text-emerald-800">Información importante de Retorno</span>
+                <p class="text-xs sm:text-sm font-bold text-slate-800">
+                    Ruta de retorno Churín ➔ Lima: Último punto de llegada en Lima es <strong class="text-emerald-700">Plaza Norte</strong>.
+                </p>
+            </div>
         </div>
 
         <!-- SECCIÓN: NUESTRAS UNIDADES (CARRUSEL DESLIZABLE) -->
@@ -311,7 +326,8 @@
 
         // Inicializar al cargar
         document.addEventListener('DOMContentLoaded', () => {
-            setFechaSeleccionada(new Date());
+            const hoy = new Date();
+            setFechaSeleccionada(hoy);
             renderCalendario();
         });
 
@@ -326,12 +342,26 @@
             origenSeleccionado = valor;
             document.getElementById('txtOrigen').innerText = valor;
             document.getElementById('dropdownOrigen').classList.add('hidden');
+            verificarRestriccionRuta();
         }
 
         function seleccionarDestino(valor) {
             destinoSeleccionado = valor;
             document.getElementById('txtDestino').innerText = valor;
             document.getElementById('dropdownDestino').classList.add('hidden');
+            verificarRestriccionRuta();
+        }
+
+        // Validación de la restricción: origen y destino no pueden ser iguales
+        function verificarRestriccionRuta() {
+            const alerta = document.getElementById('alertaError');
+            if (origenSeleccionado === destinoSeleccionado) {
+                alerta.classList.remove('hidden');
+                return false;
+            } else {
+                alerta.classList.add('hidden');
+                return true;
+            }
         }
 
         function setFechaRelativa(dias) {
@@ -345,11 +375,18 @@
         let anioActual = new Date().getFullYear();
 
         function setFechaSeleccionada(date) {
+            const hoy = new Date();
+            hoy.setHours(0, 0, 0, 0);
+
+            // Restricción: No permitir fechas anteriores a hoy
+            if (date < hoy) {
+                return; 
+            }
+
             fechaSeleccionada = date;
             const opciones = { day: 'numeric', month: 'short', year: 'numeric' };
             document.getElementById('txtFecha').innerText = date.toLocaleDateString('es-ES', opciones);
 
-            const hoy = new Date();
             const manana = new Date();
             manana.setDate(hoy.getDate() + 1);
 
@@ -390,21 +427,31 @@
             }
 
             const hoy = new Date();
+            hoy.setHours(0, 0, 0, 0);
+
             for(let i = 1; i <= totalDiasMes; i++) {
                 const d = new Date(anioActual, mesActual, i);
-                const esHoy = d.toDateString() === hoy.toDateString();
-                const esSeleccionado = d.toDateString() === fechaSeleccionada.toDateString();
+                d.setHours(0, 0, 0, 0);
 
-                let classes = "py-2 rounded-xl cursor-pointer transition font-bold ";
-                if(esSeleccionado) {
-                    classes += "bg-slate-900 text-white shadow-md";
-                } else if(esHoy) {
-                    classes += "border border-slate-900 text-slate-900 hover:bg-slate-100";
+                const esPasado = d < hoy;
+                const esHoy = d.getTime() === hoy.getTime();
+                const esSeleccionado = d.getTime() === fechaSeleccionada.setHours(0,0,0,0);
+
+                let classes = "py-2 rounded-xl transition font-bold ";
+                if (esPasado) {
+                    classes += "text-slate-300 cursor-not-allowed line-through";
+                    html += `<div class="${classes}">${i}</div>`;
                 } else {
-                    classes += "hover:bg-slate-100 text-slate-700";
+                    classes += "cursor-pointer ";
+                    if(esSeleccionado) {
+                        classes += "bg-slate-900 text-white shadow-md";
+                    } else if(esHoy) {
+                        classes += "border border-slate-900 text-slate-900 hover:bg-slate-100";
+                    } else {
+                        classes += "hover:bg-slate-100 text-slate-700";
+                    }
+                    html += `<div onclick="seleccionarFechaDia(${anioActual}, ${mesActual}, ${i})" class="${classes}">${i}</div>`;
                 }
-
-                html += `<div onclick="seleccionarFechaDia(${anioActual}, ${mesActual}, ${i})" class="${classes}">${i}</div>`;
             }
 
             document.getElementById('calendarioDias').innerHTML = html;
@@ -412,6 +459,11 @@
 
         function seleccionarFechaDia(anio, mes, dia) {
             const nuevaFecha = new Date(anio, mes, dia);
+            const hoy = new Date();
+            hoy.setHours(0, 0, 0, 0);
+
+            if (nuevaFecha < hoy) return; // Doble validación de seguridad
+
             setFechaSeleccionada(nuevaFecha);
             document.getElementById('dropdownFecha').classList.add('hidden');
         }
@@ -425,6 +477,17 @@
         }
 
         function enviarConsultaWhatsApp() {
+            if (!verificarRestriccionRuta()) {
+                return;
+            }
+
+            const hoy = new Date();
+            hoy.setHours(0, 0, 0, 0);
+            if (fechaSeleccionada < hoy) {
+                alert('No se pueden seleccionar fechas anteriores a hoy.');
+                return;
+            }
+
             const asientos = document.getElementById('asientos').value;
 
             if (asientos < 1) {
