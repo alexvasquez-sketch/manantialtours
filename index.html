@@ -24,34 +24,119 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        /* Estilo de butaca tipo RedBus */
+        .seat-btn {
+            position: relative;
+            width: 44px;
+            height: 46px;
+            border-radius: 10px 10px 6px 6px;
+            border: 2px solid #334155;
+            background-color: #ffffff;
+            color: #0f172a;
+            font-weight: 800;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s ease;
+            box-shadow: 0 2px 0 #cbd5e1;
+        }
+
+        /* Apoyabrazos laterales */
+        .seat-btn::before,
+        .seat-btn::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            width: 4px;
+            height: 22px;
+            border-radius: 3px;
+            background-color: currentColor;
+            opacity: 0.25;
+        }
+        .seat-btn::before { left: 2px; }
+        .seat-btn::after { right: 2px; }
+
+        .seat-free:hover {
+            border-color: #059669;
+            background-color: #ecfdf5;
+            transform: translateY(-2px);
+        }
+
+        .seat-occupied {
+            background-color: #f87171;
+            border-color: #ef4444;
+            color: #ffffff;
+            box-shadow: 0 2px 0 #dc2626;
+            cursor: not-allowed;
+            opacity: 0.9;
+        }
+
+        .seat-selected {
+            background-color: #64748b;
+            border-color: #334155;
+            color: #ffffff;
+            box-shadow: 0 2px 0 #1e293b;
+            transform: translateY(-2px);
+        }
+
+        /* Ícono de leyenda */
+        .legend-seat {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+    </style>
 </head>
 <body class="bg-slate-50 text-slate-900 font-sans antialiased min-h-screen flex flex-col justify-between">
 
-    <!-- Cabecera -->
-    <header class="border-b border-slate-200 bg-white/90 backdrop-blur-md sticky top-0 z-50 shadow-sm">
-        <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-xl bg-slate-900 text-white font-extrabold flex items-center justify-center overflow-hidden shadow-sm border border-slate-800">
+    <!-- Cabecera (siempre visible con temporizador integrado) -->
+    <header class="border-b border-slate-200 bg-white/95 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <div class="max-w-5xl mx-auto px-3 sm:px-4 h-16 flex items-center justify-between gap-2">
+            <div class="flex items-center space-x-2.5 sm:space-x-3 min-w-0">
+                <div class="w-10 h-10 rounded-xl bg-slate-900 text-white font-extrabold flex items-center justify-center overflow-hidden shadow-sm border border-slate-800 flex-shrink-0">
                     <img src="assets/img/manantialtours_logo.jpg" alt="Manantial Logo" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                     <span class="hidden text-sm">M</span>
                 </div>
-                <div>
-                    <span class="font-extrabold text-sm block leading-tight text-slate-900">MANANTIAL TOURS S.A.C.</span>
-                    <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">Transporte Terrestre</span>
+                <div class="truncate">
+                    <span class="font-extrabold text-xs sm:text-sm block leading-tight text-slate-900 truncate">MANANTIAL TOURS S.A.C.</span>
+                    <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider hidden sm:block">Transporte Terrestre</span>
                 </div>
             </div>
-            <a href="https://wa.me/51946704105?text=Hola,%20quisiera%20consultar%20sobre%20los%20pasajes,%20horarios%20y%20disponibilidad%20para%20viajar%20a%20Churín." target="_blank" onclick="gtag('event', 'clic_whatsapp', { 'event_category': 'Contacto', 'event_label': 'Cabecera' });" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-extrabold px-3.5 py-2 rounded-xl flex items-center space-x-1.5 transition shadow-sm">
-                <i class="fa-brands fa-whatsapp text-sm"></i>
-                <span>WhatsApp</span>
-            </a>
+
+            <div class="flex items-center space-x-2 sm:space-x-2.5 flex-shrink-0">
+                <!-- Temporizador siempre visible en cabecera -->
+                <div id="cajaTemporizador" class="flex items-center space-x-1.5 sm:space-x-2 bg-amber-50 border border-amber-200 text-amber-900 px-2.5 sm:px-3 py-1.5 rounded-xl">
+                    <i class="fa-regular fa-clock text-amber-600 text-xs sm:text-sm"></i>
+                    <div class="leading-none">
+                        <span class="block text-[8px] sm:text-[9px] font-extrabold uppercase tracking-wider text-amber-700">Tiempo</span>
+                        <span id="temporizadorTexto" class="text-xs sm:text-sm font-extrabold tabular-nums">05:00</span>
+                    </div>
+                </div>
+
+                <a href="https://wa.me/51946704105?text=Hola,%20quisiera%20consultar%20sobre%20los%20pasajes,%20horarios%20y%20disponibilidad%20para%20viajar%20a%20Churín." target="_blank" onclick="gtag('event', 'clic_whatsapp', { 'event_category': 'Contacto', 'event_label': 'Cabecera' });" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-extrabold px-3 sm:px-3.5 py-2 rounded-xl flex items-center space-x-1.5 transition shadow-sm">
+                    <i class="fa-brands fa-whatsapp text-sm"></i>
+                    <span>WhatsApp</span>
+                </a>
+            </div>
         </div>
     </header>
 
     <!-- Cuerpo Principal -->
-    <main class="max-w-3xl mx-auto px-4 py-8 text-center space-y-6">
+    <main class="max-w-3xl mx-auto px-4 py-8 text-center space-y-6 w-full">
         
-        <!-- LOGO PRINCIPAL -->
-        <div class="flex justify-center mb-1">
+        <!-- LOGO PRINCIPAL (SIEMPRE VISIBLE) -->
+        <div id="logoPrincipal" class="flex justify-center mb-1">
             <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-white border-2 border-slate-200/80 shadow-md flex items-center justify-center overflow-hidden p-2 transition-transform hover:scale-105">
                 <img src="assets/img/manantialtours_logo.jpg" alt="Manantial Tours Logo Principal" class="w-full h-full object-cover rounded-full" onerror="this.onerror=null; this.src='https://via.placeholder.com/150?text=Manantial';">
             </div>
@@ -67,7 +152,7 @@
             </p>
         </div>
 
-        <!-- TARJETA DE BÚSQUEDA MODERNA (ESTILO REDBUS COMPLETO) -->
+        <!-- TARJETA DE BÚSQUEDA MODERNA -->
         <div class="bg-white p-3 sm:p-4 rounded-3xl border border-slate-200/90 shadow-lg max-w-2xl mx-auto text-left space-y-2 relative">
             
             <!-- Fila Origen y Destino -->
@@ -166,21 +251,230 @@
                         <i class="fa-solid fa-user-group"></i>
                     </div>
                     <div class="flex-1">
-                        <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Cantidad de Asientos</span>
-                        <input type="number" id="asientos" min="1" max="20" value="1" class="w-full bg-transparent text-sm font-extrabold text-slate-900 focus:outline-none">
+                        <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Cantidad de Asientos (Máx. 18)</span>
+                        <input type="number" id="asientos" min="1" max="18" value="1" onchange="onCambioCantidadPasajeros()" class="w-full bg-transparent text-sm font-extrabold text-slate-900 focus:outline-none">
                     </div>
                 </div>
 
             </div>
 
-            <!-- Botón Buscar / Consultar armonioso -->
-            <button onclick="enviarConsultaWhatsApp()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-extrabold py-3.5 px-4 rounded-2xl shadow-md transition flex items-center justify-center space-x-2 text-sm sm:text-base tracking-wide">
+            <!-- Botón Buscar Salidas / Continuar -->
+            <button type="button" onclick="buscarHorariosDisponibles()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-extrabold py-3.5 px-4 rounded-2xl shadow-md transition flex items-center justify-center space-x-2 text-sm sm:text-base tracking-wide">
                 <i class="fa-solid fa-magnifying-glass text-emerald-400 text-sm"></i>
-                <span>Buscar Pasajes y Consultar</span>
+                <span>Buscar Salidas</span>
             </button>
         </div>
 
-        <!-- ETIQUETA DE ÉNFASIS: RUTA DE RETORNO (CERCANA A LAS OPCIONES) -->
+        <!-- ============================================================== -->
+        <!-- SECCIÓN DE HORARIOS DE SALIDA (SOLO LIMA -> CHURÍN)            -->
+        <!-- ============================================================== -->
+        <section id="seccionHorarios" class="hidden max-w-2xl mx-auto w-full text-left space-y-3">
+            <div class="flex items-center justify-between px-1">
+                <div>
+                    <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-600 block">Salidas programadas • Lima ➔ Churín</span>
+                    <h2 class="text-base sm:text-lg font-extrabold text-slate-900">Elige tu horario de salida</h2>
+                </div>
+                <span class="text-xs font-bold text-slate-500">5 turnos diarios</span>
+            </div>
+
+            <div id="listaTarjetasHorarios" class="space-y-2.5"></div>
+        </section>
+
+        <!-- ============================================================== -->
+        <!-- SECCIÓN INTERACTIVA DE ASIENTOS HYUNDAI H350 (18 PASAJEROS)    -->
+        <!-- ============================================================== -->
+        <section id="seccionMapaAsientos" class="hidden max-w-2xl mx-auto w-full bg-white p-4 sm:p-6 rounded-3xl border border-slate-200 shadow-xl text-left space-y-5 transition-all">
+            
+            <!-- Encabezado y Leyenda estilo RedBus -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
+                <div>
+                    <span id="subtituloUnidadHorario" class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-600 block">Hyundai H350 • 18 Pasajeros</span>
+                    <h2 class="text-base sm:text-lg font-extrabold text-slate-900">Elige tus asientos (<span id="contadorElegidos">0</span> de <span id="contadorRequeridos">1</span>)</h2>
+                </div>
+
+                <!-- Leyenda de estados -->
+                <div class="flex items-center space-x-4 bg-slate-50 border border-slate-200/80 px-3.5 py-2 rounded-2xl self-start sm:self-auto">
+                    <div class="flex items-center space-x-1.5">
+                        <span class="legend-seat bg-white border-2 border-slate-700"></span>
+                        <span class="text-xs font-bold text-slate-700">Libre</span>
+                    </div>
+                    <div class="flex items-center space-x-1.5">
+                        <span class="legend-seat bg-red-400 border-2 border-red-500"></span>
+                        <span class="text-xs font-bold text-slate-700">Ocupado</span>
+                    </div>
+                    <div class="flex items-center space-x-1.5">
+                        <span class="legend-seat bg-slate-500 border-2 border-slate-700"></span>
+                        <span class="text-xs font-bold text-slate-700">Elegido</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alerta de validación / expiración de asientos -->
+            <div id="alertaAsientos" class="hidden bg-amber-50 border border-amber-300 text-amber-800 text-xs font-bold px-3.5 py-2.5 rounded-xl flex items-center space-x-2">
+                <i class="fa-solid fa-circle-info text-amber-600"></i>
+                <span id="textoAlertaAsientos"></span>
+            </div>
+
+            <!-- CROQUIS DEL VEHÍCULO (HYUNDAI H350 VERTICAL) -->
+            <div class="flex justify-center py-2">
+                <div class="relative w-[276px] sm:w-[296px] select-none">
+                    
+                    <!-- Espejos retrovisores laterales -->
+                    <div class="absolute -left-3 top-12 w-3.5 h-8 bg-amber-500 rounded-l-lg border border-amber-600 shadow-sm"></div>
+                    <div class="absolute -right-3 top-12 w-3.5 h-8 bg-amber-500 rounded-r-lg border border-amber-600 shadow-sm"></div>
+
+                    <!-- Ruedas laterales -->
+                    <div class="absolute -left-2 top-24 w-2 h-14 bg-slate-700 rounded-l-md"></div>
+                    <div class="absolute -right-2 top-24 w-2 h-14 bg-slate-700 rounded-r-md"></div>
+                    <div class="absolute -left-2 bottom-16 w-2 h-14 bg-slate-700 rounded-l-md"></div>
+                    <div class="absolute -right-2 bottom-16 w-2 h-14 bg-slate-700 rounded-r-md"></div>
+
+                    <!-- Carrocería Principal -->
+                    <div class="bg-amber-400 p-2.5 rounded-t-[54px] rounded-b-[28px] shadow-md border-2 border-amber-500">
+                        
+                        <!-- Parabrisas delantero -->
+                        <div class="h-9 bg-slate-100/90 rounded-t-[44px] rounded-b-xl mb-2 border border-amber-500/40 flex items-center justify-center">
+                            <span class="text-[9px] font-extrabold uppercase tracking-widest text-slate-400">Frente • Hyundai H350</span>
+                        </div>
+
+                        <!-- Interior blanco de cabina y pasajeros -->
+                        <div class="bg-white rounded-t-2xl rounded-b-[20px] p-3.5 space-y-3 border border-slate-200">
+                            
+                            <!-- Fila 0: Piloto (Timón) y Asientos Copiloto (1 y 2) -->
+                            <div class="grid grid-cols-4 gap-2 items-center pb-2.5 border-b border-dashed border-slate-200">
+                                <div class="flex flex-col items-center justify-center text-slate-500" title="Conductor">
+                                    <div class="w-10 h-10 rounded-full border-2 border-slate-500 flex items-center justify-center">
+                                        <i class="fa-solid fa-dharmachakra text-lg"></i>
+                                    </div>
+                                    <span class="text-[9px] font-bold uppercase mt-0.5">Piloto</span>
+                                </div>
+                                <div></div>
+                                <div id="seat-slot-1" class="flex justify-center"></div>
+                                <div id="seat-slot-2" class="flex justify-center"></div>
+                            </div>
+
+                            <!-- Puerta corrediza lateral -->
+                            <div class="flex justify-end items-center -my-1">
+                                <span class="text-[9px] font-extrabold uppercase tracking-wider bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-md">
+                                    Puerta de ingreso ➔
+                                </span>
+                            </div>
+
+                            <!-- Salón de pasajeros (Asientos 3 al 18) -->
+                            <div id="salonPasajeros" class="space-y-2.5"></div>
+
+                        </div>
+
+                        <!-- Parachoque trasero -->
+                        <div class="mt-2 h-5 bg-slate-900 rounded-b-[20px] rounded-t-md flex items-center justify-center">
+                            <div class="w-24 h-2 bg-slate-600 rounded-full"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Barra inferior con resumen rápido y botón Siguiente -->
+            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                    <span class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-400">Asientos seleccionados</span>
+                    <span id="resumenAsientosTexto" class="text-sm font-extrabold text-slate-900">Ninguno aún</span>
+                </div>
+
+                <button id="btnSiguienteAsientos" type="button" onclick="mostrarResumenReserva()" class="bg-rose-600 hover:bg-rose-500 text-white font-extrabold py-3 px-6 rounded-2xl shadow-md transition flex items-center justify-center space-x-2 text-sm tracking-wide">
+                    <span>Siguiente</span>
+                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- ============================================================== -->
+        <!-- SECCIÓN DE RESUMEN DE RESERVA (AL PULSAR SIGUIENTE)          -->
+        <!-- ============================================================== -->
+        <section id="seccionResumenReserva" class="hidden max-w-2xl mx-auto w-full bg-white p-5 sm:p-6 rounded-3xl border-2 border-emerald-500/30 shadow-xl text-left space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <div>
+                    <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-600 block">Paso final • Detalle de tu solicitud</span>
+                    <h2 class="text-lg sm:text-xl font-extrabold text-slate-900">Resumen de tu viaje</h2>
+                </div>
+                <span class="bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-extrabold px-3 py-1 rounded-xl">
+                    Listo para enviar
+                </span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-50 p-4 rounded-2xl border border-slate-200/80 text-sm">
+                <div>
+                    <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Ruta</span>
+                    <span id="resumenRuta" class="font-extrabold text-slate-900"></span>
+                </div>
+                <div>
+                    <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Fecha de viaje</span>
+                    <span id="resumenFecha" class="font-extrabold text-slate-900"></span>
+                </div>
+                <div>
+                    <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Cantidad de pasajeros</span>
+                    <span id="resumenPasajeros" class="font-extrabold text-slate-900"></span>
+                </div>
+                <div>
+                    <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Asientos elegidos</span>
+                    <span id="resumenAsientosDetalle" class="font-extrabold text-emerald-700"></span>
+                </div>
+            </div>
+
+            <!-- Datos obligatorios de la persona como contacto -->
+            <div class="bg-slate-50/90 border border-slate-200 rounded-2xl p-4 space-y-3">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-extrabold uppercase tracking-wider text-slate-800">
+                        Datos de la persona como contacto <span class="text-rose-600">*</span>
+                    </span>
+                    <span class="text-[10px] font-bold text-slate-400">Campos obligatorios</span>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                    <div>
+                        <label for="contactoDni" class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">DNI <span class="text-rose-600">*</span></label>
+                        <input type="text" id="contactoDni" maxlength="8" inputmode="numeric" placeholder="Ej. 12345678" oninput="this.value = this.value.replace(/[^0-9]/g, ''); ocultarErrorContacto();" class="w-full bg-white border border-slate-300 focus:border-emerald-600 rounded-xl px-3 py-2 text-xs sm:text-sm font-bold text-slate-900 focus:outline-none">
+                    </div>
+
+                    <div>
+                        <label for="contactoEdad" class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">Edad <span class="text-rose-600">*</span></label>
+                        <input type="number" id="contactoEdad" min="1" max="120" placeholder="Ej. 28" oninput="ocultarErrorContacto();" class="w-full bg-white border border-slate-300 focus:border-emerald-600 rounded-xl px-3 py-2 text-xs sm:text-sm font-bold text-slate-900 focus:outline-none">
+                    </div>
+
+                    <div class="sm:col-span-1">
+                        <label for="contactoNombre" class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">Nombre completo <span class="text-rose-600">*</span></label>
+                        <input type="text" id="contactoNombre" placeholder="Ej. Juan Pérez" oninput="ocultarErrorContacto();" class="w-full bg-white border border-slate-300 focus:border-emerald-600 rounded-xl px-3 py-2 text-xs sm:text-sm font-bold text-slate-900 focus:outline-none">
+                    </div>
+                </div>
+
+                <div id="alertaContacto" class="hidden bg-rose-50 border border-rose-200 text-rose-700 text-xs font-bold px-3 py-2 rounded-xl flex items-center space-x-2">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <span id="textoAlertaContacto"></span>
+                </div>
+            </div>
+
+            <!-- Mensaje informativo de énfasis (solo visible aquí, NO se envía por WhatsApp) -->
+            <div class="bg-amber-50 border-l-4 border-amber-500 border border-amber-200/80 rounded-2xl p-3.5 flex items-center space-x-3">
+                <div class="w-8 h-8 rounded-xl bg-amber-500 text-white flex items-center justify-center flex-shrink-0 text-xs shadow-sm">
+                    <i class="fa-solid fa-bullhorn"></i>
+                </div>
+                <p class="text-xs sm:text-sm font-extrabold text-amber-950">
+                    Por el momento toda reserva será confirmada vía whatsapp
+                </p>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-2.5 pt-1">
+                <button type="button" onclick="volverAAsientos()" class="w-full sm:w-auto bg-slate-100 hover:bg-slate-200 text-slate-800 font-extrabold py-3 px-4 rounded-2xl transition text-xs sm:text-sm flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-pen"></i>
+                    <span>Modificar asientos</span>
+                </button>
+                <button type="button" onclick="enviarResumenWhatsApp()" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-3 px-5 rounded-2xl shadow-md transition text-xs sm:text-sm flex items-center justify-center space-x-2">
+                    <i class="fa-brands fa-whatsapp text-base"></i>
+                    <span>Enviar reserva por WhatsApp</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- ETIQUETA DE ÉNFASIS: RUTA DE RETORNO -->
         <div class="max-w-2xl mx-auto w-full bg-emerald-50 border border-emerald-200 rounded-2xl p-3.5 flex items-center space-x-3 text-left shadow-sm">
             <div class="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center flex-shrink-0 text-sm shadow-sm">
                 <i class="fa-solid fa-route"></i>
@@ -200,7 +494,6 @@
                     <i class="fa-solid fa-bus text-emerald-600"></i>
                     <span id="tituloUnidad">Nuestra Flota: Hyundai H350</span>
                 </div>
-                <!-- Controles de navegación del carrusel -->
                 <div class="flex space-x-1.5">
                     <button onclick="moverCarrusel(-1)" class="w-8 h-8 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition shadow-sm">
                         <i class="fa-solid fa-chevron-left text-xs"></i>
@@ -211,19 +504,17 @@
                 </div>
             </div>
 
-            <!-- Contenedor del Carrusel -->
             <div class="w-full h-52 sm:h-60 rounded-2xl overflow-hidden border border-slate-100 shadow-inner relative bg-slate-100">
                 <div id="carruselTrack" class="flex w-[200%] h-full transition-transform duration-500 ease-in-out">
-                    
                     <!-- Slide 1: Hyundai H350 -->
                     <div class="w-1/2 h-full relative flex-shrink-0">
                         <img src="assets/img/hyundai_h350.jpg" alt="Hyundai H350 Manantial Tours" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                         <div class="hidden w-full h-full flex-col items-center justify-center text-slate-400 p-4">
                             <i class="fa-solid fa-image text-3xl mb-1"></i>
-                            <span class="text-xs font-medium">Hyundai H350 (Servicio Turístico)</span>
+                            <span class="text-xs font-medium">Hyundai H350 (18 Pasajeros • Servicio Turístico)</span>
                         </div>
                         <div class="absolute bottom-3 left-3 bg-slate-900/80 backdrop-blur-md text-white text-[11px] font-bold px-3 py-1 rounded-xl">
-                            Hyundai H350 • Amplio Confort
+                            Hyundai H350 • 18 Pasajeros
                         </div>
                     </div>
 
@@ -238,7 +529,6 @@
                             DFSK Glory 580 • SUV Exclusiva
                         </div>
                     </div>
-
                 </div>
             </div>
 
@@ -276,7 +566,7 @@
                     </a>
                 </div>
 
-                <p class="text-xs text-slate-500 font-medium pt-1">Av. Alfredo Mendiola 6776, Los Olivos • Salidas rumbo a Churín[cite: 11].</p>
+                <p class="text-xs text-slate-500 font-medium pt-1">Av. Alfredo Mendiola 6776, Los Olivos • Salidas rumbo a Churín.</p>
             </div>
         </div>
 
@@ -284,15 +574,12 @@
         <div class="pt-2 border-t border-slate-200 max-w-md mx-auto">
             <p class="text-slate-500 text-xs font-bold uppercase tracking-wider mb-3">Síguenos en nuestras redes oficiales</p>
             <div class="flex justify-center items-center space-x-4">
-                <!-- Facebook -->
                 <a href="https://www.facebook.com/profile.php?id=100089414253832&sk=about" target="_blank" class="w-12 h-12 rounded-2xl bg-white border border-slate-200 text-slate-700 hover:text-blue-600 hover:border-blue-600 flex items-center justify-center text-xl shadow-sm transition transform hover:-translate-y-1" title="Facebook">
                     <i class="fa-brands fa-facebook-f"></i>
                 </a>
-                <!-- Instagram -->
                 <a href="https://www.instagram.com/manantial.tours/" target="_blank" class="w-12 h-12 rounded-2xl bg-white border border-slate-200 text-slate-700 hover:text-pink-600 hover:border-pink-600 flex items-center justify-center text-xl shadow-sm transition transform hover:-translate-y-1" title="Instagram">
                     <i class="fa-brands fa-instagram"></i>
                 </a>
-                <!-- TikTok -->
                 <a href="https://www.tiktok.com/@manantialtours0" target="_blank" class="w-12 h-12 rounded-2xl bg-white border border-slate-200 text-slate-700 hover:text-slate-950 hover:border-slate-950 flex items-center justify-center text-xl shadow-sm transition transform hover:-translate-y-1" title="TikTok">
                     <i class="fa-brands fa-tiktok"></i>
                 </a>
@@ -311,6 +598,38 @@
         let origenSeleccionado = "Lima (Óvalo Infantas)";
         let destinoSeleccionado = "Churín";
         let fechaSeleccionada = new Date();
+        let horarioSeleccionado = null;
+
+        // Salidas configuradas exclusivamente desde Lima (Óvalo Infantas) hacia Churín
+        const salidasLimaChurin = [
+            { id: 1, turno: "Primera salida", hora: "6:00 AM", servicio: "TURÍSTICO", terminal: "ÓVALO INFANTAS", ocupados: [4, 7, 12] },
+            { id: 2, turno: "Segunda salida", hora: "9:00 AM", servicio: "TURÍSTICO", terminal: "ÓVALO INFANTAS", ocupados: [2, 5, 9, 14] },
+            { id: 3, turno: "Tercera salida", hora: "12:00 M", servicio: "TURÍSTICO", terminal: "ÓVALO INFANTAS", ocupados: [1, 6, 11] },
+            { id: 4, turno: "Cuarta salida", hora: "3:00 PM", servicio: "TURÍSTICO", terminal: "ÓVALO INFANTAS", ocupados: [3, 8] },
+            { id: 5, turno: "Quinta salida", hora: "5:00 PM", servicio: "TURÍSTICO", terminal: "ÓVALO INFANTAS", ocupados: [10, 15, 16] }
+        ];
+
+        // Ocupados por defecto cuando se omite el selector de horarios (Churín -> Lima)
+        const ocupadosRetornoChurinLima = [3, 8, 11];
+
+        // Estado de asientos Hyundai H350 (18 pasajeros)
+        let asientosOcupados = [...ocupadosRetornoChurinLima];
+        let asientosElegidos = [];
+
+        // Temporizador de 5 minutos (300 segundos)
+        const DURACION_TEMPORIZADOR_SEG = 5 * 60;
+        let segundosRestantes = DURACION_TEMPORIZADOR_SEG;
+        let intervaloTemporizador = null;
+        let seleccionExpirada = false;
+
+        // Distribución de filas del salón de pasajeros del Hyundai H350 (asientos 3 al 18)
+        const filasSalonH350 = [
+            [3, 4, null, 5],
+            [6, 7, null, 8],
+            [9, 10, null, 11],
+            [12, 13, null, 14],
+            [15, 16, 17, 18]
+        ];
 
         // Control de Carrusel
         let slideActual = 0;
@@ -329,6 +648,9 @@
             const hoy = new Date();
             setFechaSeleccionada(hoy);
             renderCalendario();
+            renderMapaAsientos();
+            actualizarVistaTemporizador();
+            actualizarEstadoBotonSiguiente();
         });
 
         function toggleDropdown(id) {
@@ -338,11 +660,22 @@
             document.getElementById(id).classList.toggle('hidden');
         }
 
+        function limpiarFlujoSeleccion() {
+            horarioSeleccionado = null;
+            asientosElegidos = [];
+            seleccionExpirada = false;
+            detenerYReiniciarTemporizador();
+            document.getElementById('seccionHorarios').classList.add('hidden');
+            document.getElementById('seccionMapaAsientos').classList.add('hidden');
+            ocultarResumenReserva();
+        }
+
         function seleccionarOrigen(valor) {
             origenSeleccionado = valor;
             document.getElementById('txtOrigen').innerText = valor;
             document.getElementById('dropdownOrigen').classList.add('hidden');
             verificarRestriccionRuta();
+            limpiarFlujoSeleccion();
         }
 
         function seleccionarDestino(valor) {
@@ -350,9 +683,9 @@
             document.getElementById('txtDestino').innerText = valor;
             document.getElementById('dropdownDestino').classList.add('hidden');
             verificarRestriccionRuta();
+            limpiarFlujoSeleccion();
         }
 
-        // Validación de la restricción: origen y destino no pueden ser iguales
         function verificarRestriccionRuta() {
             const alerta = document.getElementById('alertaError');
             if (origenSeleccionado === destinoSeleccionado) {
@@ -364,11 +697,16 @@
             }
         }
 
+        function esRutaLimaAChurin() {
+            return origenSeleccionado === "Lima (Óvalo Infantas)" && destinoSeleccionado === "Churín";
+        }
+
         function setFechaRelativa(dias) {
             const d = new Date();
             d.setDate(d.getDate() + dias);
             setFechaSeleccionada(d);
             document.getElementById('dropdownFecha').classList.add('hidden');
+            limpiarFlujoSeleccion();
         }
 
         let mesActual = new Date().getMonth();
@@ -378,10 +716,7 @@
             const hoy = new Date();
             hoy.setHours(0, 0, 0, 0);
 
-            // Restricción: No permitir fechas anteriores a hoy
-            if (date < hoy) {
-                return; 
-            }
+            if (date < hoy) return;
 
             fechaSeleccionada = date;
             const opciones = { day: 'numeric', month: 'short', year: 'numeric' };
@@ -435,7 +770,9 @@
 
                 const esPasado = d < hoy;
                 const esHoy = d.getTime() === hoy.getTime();
-                const esSeleccionado = d.getTime() === fechaSeleccionada.setHours(0,0,0,0);
+                const fechaRef = new Date(fechaSeleccionada);
+                fechaRef.setHours(0,0,0,0);
+                const esSeleccionado = d.getTime() === fechaRef.getTime();
 
                 let classes = "py-2 rounded-xl transition font-bold ";
                 if (esPasado) {
@@ -462,10 +799,11 @@
             const hoy = new Date();
             hoy.setHours(0, 0, 0, 0);
 
-            if (nuevaFecha < hoy) return; // Doble validación de seguridad
+            if (nuevaFecha < hoy) return;
 
             setFechaSeleccionada(nuevaFecha);
             document.getElementById('dropdownFecha').classList.add('hidden');
+            limpiarFlujoSeleccion();
         }
 
         window.onclick = function(event) {
@@ -476,10 +814,12 @@
             }
         }
 
-        function enviarConsultaWhatsApp() {
-            if (!verificarRestriccionRuta()) {
-                return;
-            }
+        // ============================================================
+        // BUSCAR SALIDAS: CON HORARIOS EN LIMA -> CHURÍN, OMITIDOS EN VICEVERSA
+        // ============================================================
+
+        function buscarHorariosDisponibles() {
+            if (!verificarRestriccionRuta()) return;
 
             const hoy = new Date();
             hoy.setHours(0, 0, 0, 0);
@@ -488,22 +828,473 @@
                 return;
             }
 
-            const asientos = document.getElementById('asientos').value;
+            obtenerCantidadRequerida();
 
-            if (asientos < 1) {
-                alert('Por favor, ingresa al menos 1 pasajero.');
+            if (esRutaLimaAChurin()) {
+                document.getElementById('seccionMapaAsientos').classList.add('hidden');
+                ocultarResumenReserva();
+                renderTarjetasHorarios();
+                const secHorarios = document.getElementById('seccionHorarios');
+                secHorarios.classList.remove('hidden');
+                secHorarios.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                document.getElementById('seccionHorarios').classList.add('hidden');
+                horarioSeleccionado = null;
+                asientosOcupados = [...ocupadosRetornoChurinLima];
+                asientosElegidos = [];
+                seleccionExpirada = false;
+                detenerYReiniciarTemporizador();
+                ocultarResumenReserva();
+
+                document.getElementById('subtituloUnidadHorario').innerText = `Hyundai H350 • ${origenSeleccionado} ➔ ${destinoSeleccionado}`;
+
+                const seccion = document.getElementById('seccionMapaAsientos');
+                seccion.classList.remove('hidden');
+                ocultarAlertaAsientos();
+                renderMapaAsientos();
+                actualizarVistaTemporizador();
+                actualizarEstadoBotonSiguiente();
+                seccion.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        function renderTarjetasHorarios() {
+            const contenedor = document.getElementById('listaTarjetasHorarios');
+            contenedor.innerHTML = '';
+
+            salidasLimaChurin.forEach(salida => {
+                const disponibles = 18 - salida.ocupados.length;
+                const esActiva = horarioSeleccionado && horarioSeleccionado.id === salida.id;
+
+                const card = document.createElement('div');
+                card.className = `bg-white rounded-2xl border ${esActiva ? 'border-emerald-500 ring-2 ring-emerald-500/20' : 'border-slate-200'} p-3.5 sm:px-5 sm:py-4 shadow-sm hover:shadow-md transition flex flex-col sm:flex-row sm:items-center justify-between gap-3`;
+
+                card.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center overflow-hidden flex-shrink-0 border border-slate-800">
+                            <img src="assets/img/manantialtours_logo.jpg" alt="Manantial" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <span class="hidden text-xs font-extrabold">M</span>
+                        </div>
+                        <div>
+                            <span class="block text-[10px] font-extrabold uppercase tracking-wider text-emerald-700">${salida.turno}</span>
+                            <span class="text-xs sm:text-sm font-extrabold text-slate-900">MANANTIAL TOURS</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-3 sm:flex sm:items-center gap-3 sm:gap-6 text-center">
+                        <div>
+                            <span class="block text-[10px] font-bold text-slate-400 uppercase">Servicio</span>
+                            <span class="text-xs font-extrabold text-slate-700">${salida.servicio}</span>
+                        </div>
+                        <div>
+                            <span class="block text-[10px] font-bold text-slate-400 uppercase">Salida</span>
+                            <span class="text-xs sm:text-sm font-extrabold text-slate-900">${salida.hora}</span>
+                        </div>
+                        <div>
+                            <span class="block text-[10px] font-bold text-slate-400 uppercase">Asientos disp.</span>
+                            <span class="text-xs sm:text-sm font-extrabold text-emerald-700">${disponibles}</span>
+                        </div>
+                    </div>
+
+                    <button type="button" onclick="seleccionarHorarioYVerAsientos(${salida.id})" class="${esActiva ? 'bg-emerald-600 hover:bg-emerald-500' : 'bg-rose-600 hover:bg-rose-500'} text-white font-extrabold text-xs px-4 py-2.5 rounded-xl shadow-sm transition flex items-center justify-center space-x-1.5 flex-shrink-0">
+                        <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                        <span>Ver asientos</span>
+                    </button>
+                `;
+
+                contenedor.appendChild(card);
+            });
+        }
+
+        function seleccionarHorarioYVerAsientos(salidaId) {
+            if (!esRutaLimaAChurin()) return;
+
+            const salida = salidasLimaChurin.find(s => s.id === salidaId);
+            if (!salida) return;
+
+            const requeridos = obtenerCantidadRequerida();
+            const disponibles = 18 - salida.ocupados.length;
+
+            if (requeridos > disponibles) {
+                alert(`Esta salida de las ${salida.hora} solo tiene ${disponibles} asiento(s) disponible(s). Reduce la cantidad de pasajeros o elige otro horario.`);
                 return;
             }
 
+            horarioSeleccionado = salida;
+            asientosOcupados = [...salida.ocupados];
+            asientosElegidos = [];
+            seleccionExpirada = false;
+            detenerYReiniciarTemporizador();
+            ocultarResumenReserva();
+
+            renderTarjetasHorarios();
+
+            document.getElementById('subtituloUnidadHorario').innerText = `Hyundai H350 • ${salida.turno} (${salida.hora})`;
+
+            const seccion = document.getElementById('seccionMapaAsientos');
+            seccion.classList.remove('hidden');
+            ocultarAlertaAsientos();
+            renderMapaAsientos();
+            actualizarVistaTemporizador();
+            actualizarEstadoBotonSiguiente();
+
+            seccion.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // ============================================================
+        // LÓGICA DEL TEMPORIZADOR DE SELECCIÓN DE ASIENTOS (5 MINUTOS)
+        // ============================================================
+
+        function formatearTiempo(seg) {
+            const minutos = Math.floor(seg / 60);
+            const segundos = seg % 60;
+            return `${String(minutos).padStart(2, '0')}:${String(segundos).padStart(2, '0')}`;
+        }
+
+        function actualizarVistaTemporizador() {
+            const texto = document.getElementById('temporizadorTexto');
+            const caja = document.getElementById('cajaTemporizador');
+            if (!texto || !caja) return;
+
+            texto.innerText = formatearTiempo(segundosRestantes);
+
+            if (seleccionExpirada) {
+                caja.className = "flex items-center space-x-1.5 sm:space-x-2 bg-red-50 border border-red-200 text-red-800 px-2.5 sm:px-3 py-1.5 rounded-xl";
+            } else if (segundosRestantes <= 60 && asientosElegidos.length > 0) {
+                caja.className = "flex items-center space-x-1.5 sm:space-x-2 bg-rose-50 border border-rose-300 text-rose-800 px-2.5 sm:px-3 py-1.5 rounded-xl animate-pulse";
+            } else {
+                caja.className = "flex items-center space-x-1.5 sm:space-x-2 bg-amber-50 border border-amber-200 text-amber-900 px-2.5 sm:px-3 py-1.5 rounded-xl";
+            }
+        }
+
+        function iniciarTemporizadorSiAplica() {
+            if (intervaloTemporizador !== null) return;
+
+            seleccionExpirada = false;
+            if (segundosRestantes <= 0) {
+                segundosRestantes = DURACION_TEMPORIZADOR_SEG;
+            }
+            actualizarVistaTemporizador();
+
+            intervaloTemporizador = setInterval(() => {
+                segundosRestantes--;
+                actualizarVistaTemporizador();
+
+                if (segundosRestantes <= 0) {
+                    manejarExpiracionTemporizador();
+                }
+            }, 1000);
+        }
+
+        function detenerYReiniciarTemporizador() {
+            if (intervaloTemporizador !== null) {
+                clearInterval(intervaloTemporizador);
+                intervaloTemporizador = null;
+            }
+            segundosRestantes = DURACION_TEMPORIZADOR_SEG;
+            actualizarVistaTemporizador();
+        }
+
+        function manejarExpiracionTemporizador() {
+            if (intervaloTemporizador !== null) {
+                clearInterval(intervaloTemporizador);
+                intervaloTemporizador = null;
+            }
+            segundosRestantes = 0;
+            seleccionExpirada = true;
+            asientosElegidos = [];
+
+            ocultarResumenReserva();
+            renderMapaAsientos();
+            actualizarVistaTemporizador();
+            actualizarEstadoBotonSiguiente();
+            mostrarAlertaAsientos("El tiempo de 5 minutos para completar tu selección ha terminado. Tus asientos se liberaron; vuelve a seleccionar tus asientos para continuar.");
+            document.getElementById('seccionMapaAsientos').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function actualizarEstadoBotonSiguiente() {
+            const btn = document.getElementById('btnSiguienteAsientos');
+            if (!btn) return;
+
+            if (seleccionExpirada) {
+                btn.disabled = true;
+                btn.className = "bg-slate-300 text-slate-500 font-extrabold py-3 px-6 rounded-2xl cursor-not-allowed flex items-center justify-center space-x-2 text-sm tracking-wide";
+            } else {
+                btn.disabled = false;
+                btn.className = "bg-rose-600 hover:bg-rose-500 text-white font-extrabold py-3 px-6 rounded-2xl shadow-md transition flex items-center justify-center space-x-2 text-sm tracking-wide";
+            }
+        }
+
+        // ============================================================
+        // LÓGICA DEL SELECTOR INTERACTIVO DE ASIENTOS (HYUNDAI H350)
+        // ============================================================
+
+        function obtenerCantidadRequerida() {
+            const input = document.getElementById('asientos');
+            let val = parseInt(input.value, 10);
+            if (isNaN(val) || val < 1) val = 1;
+            if (val > 18) val = 18;
+            input.value = val;
+            return val;
+        }
+
+        function onCambioCantidadPasajeros() {
+            const requeridos = obtenerCantidadRequerida();
+            if (asientosElegidos.length > requeridos) {
+                asientosElegidos = asientosElegidos.slice(0, requeridos);
+            }
+            if (asientosElegidos.length === 0) {
+                detenerYReiniciarTemporizador();
+            }
+            ocultarAlertaAsientos();
+            ocultarResumenReserva();
+            renderMapaAsientos();
+            actualizarEstadoBotonSiguiente();
+        }
+
+        function crearBotonAsiento(numero) {
+            const estaOcupado = asientosOcupados.includes(numero);
+            const estaElegido = asientosElegidos.includes(numero);
+
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.textContent = numero;
+            btn.setAttribute('aria-label', `Asiento ${numero}`);
+
+            if (estaOcupado) {
+                btn.className = 'seat-btn seat-occupied';
+                btn.disabled = true;
+                btn.title = `Asiento ${numero}: Ocupado`;
+            } else if (estaElegido) {
+                btn.className = 'seat-btn seat-selected';
+                btn.title = `Asiento ${numero}: Elegido (clic para quitar)`;
+                btn.onclick = () => toggleAsiento(numero);
+            } else {
+                btn.className = 'seat-btn seat-free';
+                btn.title = `Asiento ${numero}: Libre`;
+                btn.onclick = () => toggleAsiento(numero);
+            }
+
+            return btn;
+        }
+
+        function renderMapaAsientos() {
+            const requeridos = obtenerCantidadRequerida();
+
+            const slot1 = document.getElementById('seat-slot-1');
+            const slot2 = document.getElementById('seat-slot-2');
+            slot1.innerHTML = '';
+            slot2.innerHTML = '';
+            slot1.appendChild(crearBotonAsiento(1));
+            slot2.appendChild(crearBotonAsiento(2));
+
+            const salon = document.getElementById('salonPasajeros');
+            salon.innerHTML = '';
+
+            filasSalonH350.forEach(fila => {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'grid grid-cols-4 gap-2 items-center';
+
+                fila.forEach(numAsiento => {
+                    const cell = document.createElement('div');
+                    cell.className = 'flex justify-center';
+                    if (numAsiento !== null) {
+                        cell.appendChild(crearBotonAsiento(numAsiento));
+                    }
+                    rowDiv.appendChild(cell);
+                });
+
+                salon.appendChild(rowDiv);
+            });
+
+            document.getElementById('contadorElegidos').innerText = asientosElegidos.length;
+            document.getElementById('contadorRequeridos').innerText = requeridos;
+
+            const resumenTexto = document.getElementById('resumenAsientosTexto');
+            if (asientosElegidos.length === 0) {
+                resumenTexto.innerText = 'Ninguno aún';
+            } else {
+                const ordenados = [...asientosElegidos].sort((a, b) => a - b);
+                resumenTexto.innerText = ordenados.map(n => `N° ${n}`).join(', ');
+            }
+        }
+
+        function toggleAsiento(numero) {
+            if (asientosOcupados.includes(numero)) return;
+
+            const requeridos = obtenerCantidadRequerida();
+            const indice = asientosElegidos.indexOf(numero);
+
+            if (indice !== -1) {
+                asientosElegidos.splice(indice, 1);
+                if (asientosElegidos.length === 0) {
+                    seleccionExpirada = false;
+                    detenerYReiniciarTemporizador();
+                }
+                ocultarAlertaAsientos();
+            } else {
+                if (asientosElegidos.length >= requeridos) {
+                    mostrarAlertaAsientos(`Ya elegiste ${requeridos} asiento(s). Desmarca uno o aumenta la cantidad de pasajeros arriba.`);
+                    return;
+                }
+                const estabaVacio = asientosElegidos.length === 0;
+                asientosElegidos.push(numero);
+                seleccionExpirada = false;
+                if (estabaVacio) {
+                    segundosRestantes = DURACION_TEMPORIZADOR_SEG;
+                    iniciarTemporizadorSiAplica();
+                }
+                ocultarAlertaAsientos();
+            }
+
+            ocultarResumenReserva();
+            renderMapaAsientos();
+            actualizarEstadoBotonSiguiente();
+        }
+
+        function mostrarAlertaAsientos(mensaje) {
+            const box = document.getElementById('alertaAsientos');
+            document.getElementById('textoAlertaAsientos').innerText = mensaje;
+            box.classList.remove('hidden');
+        }
+
+        function ocultarAlertaAsientos() {
+            document.getElementById('alertaAsientos').classList.add('hidden');
+        }
+
+        function ocultarResumenReserva() {
+            document.getElementById('seccionResumenReserva').classList.add('hidden');
+            ocultarErrorContacto();
+        }
+
+        function mostrarErrorContacto(mensaje) {
+            const box = document.getElementById('alertaContacto');
+            document.getElementById('textoAlertaContacto').innerText = mensaje;
+            box.classList.remove('hidden');
+        }
+
+        function ocultarErrorContacto() {
+            document.getElementById('alertaContacto').classList.add('hidden');
+        }
+
+        function validarDatosContacto() {
+            const dni = document.getElementById('contactoDni').value.trim();
+            const edadRaw = document.getElementById('contactoEdad').value.trim();
+            const edad = parseInt(edadRaw, 10);
+            const nombre = document.getElementById('contactoNombre').value.trim();
+
+            if (!dni || dni.length !== 8) {
+                mostrarErrorContacto('Por favor, ingresa un DNI válido de 8 dígitos.');
+                document.getElementById('contactoDni').focus();
+                return null;
+            }
+
+            if (!edadRaw || isNaN(edad) || edad < 1 || edad > 120) {
+                mostrarErrorContacto('Por favor, ingresa una edad válida.');
+                document.getElementById('contactoEdad').focus();
+                return null;
+            }
+
+            if (!nombre || nombre.length < 2) {
+                mostrarErrorContacto('Por favor, ingresa el nombre de la persona de contacto.');
+                document.getElementById('contactoNombre').focus();
+                return null;
+            }
+
+            ocultarErrorContacto();
+            return { dni, edad, nombre };
+        }
+
+        function volverAAsientos() {
+            ocultarResumenReserva();
+            document.getElementById('seccionMapaAsientos').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // Muestra el resumen al pulsar "Siguiente"
+        function mostrarResumenReserva() {
+            if (seleccionExpirada) {
+                mostrarAlertaAsientos("El tiempo expiró y los asientos se liberaron. Selecciona tus asientos nuevamente.");
+                actualizarEstadoBotonSiguiente();
+                return;
+            }
+
+            if (!verificarRestriccionRuta()) return;
+
+            const hoy = new Date();
+            hoy.setHours(0, 0, 0, 0);
+            if (fechaSeleccionada < hoy) {
+                alert('No se pueden seleccionar fechas anteriores a hoy.');
+                return;
+            }
+
+            const requeridos = obtenerCantidadRequerida();
+
+            if (asientosElegidos.length < requeridos) {
+                const faltan = requeridos - asientosElegidos.length;
+                mostrarAlertaAsientos(`Te falta elegir ${faltan} asiento(s) más para completar los ${requeridos} pasajero(s).`);
+                return;
+            }
+
+            const asientosOrdenados = [...asientosElegidos].sort((a, b) => a - b);
             const fechaFormateada = fechaSeleccionada.toLocaleDateString('es-PE', { year: 'numeric', month: 'long', day: 'numeric' });
-            const mensaje = `Hola, quisiera consultar disponibilidad y tarifas para viajar:\n\n* Ruta: ${origenSeleccionado} ➔ ${destinoSeleccionado}\n* Fecha de viaje: ${fechaFormateada}\n* Pasajeros / Asientos: ${asientos}\n\nQuedo atento a la información. ¡Gracias!`;
+            const detalleFechaHora = horarioSeleccionado
+                ? `${fechaFormateada} • ${horarioSeleccionado.hora} (${horarioSeleccionado.turno})`
+                : fechaFormateada;
+
+            document.getElementById('resumenRuta').innerText = `${origenSeleccionado} ➔ ${destinoSeleccionado}`;
+            document.getElementById('resumenFecha').innerText = detalleFechaHora;
+            document.getElementById('resumenPasajeros').innerText = `${requeridos} pasajero(s)`;
+            document.getElementById('resumenAsientosDetalle').innerText = asientosOrdenados.map(n => `Asiento ${n}`).join(', ');
+
+            ocultarErrorContacto();
+            const seccionResumen = document.getElementById('seccionResumenReserva');
+            seccionResumen.classList.remove('hidden');
+            seccionResumen.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // Envía el resumen por WhatsApp (sin incluir el aviso de énfasis de pantalla)
+        function enviarResumenWhatsApp() {
+            if (seleccionExpirada) {
+                mostrarResumenReserva();
+                return;
+            }
+
+            if (!verificarRestriccionRuta()) return;
+
+            const requeridos = obtenerCantidadRequerida();
+            if (asientosElegidos.length < requeridos) {
+                mostrarResumenReserva();
+                return;
+            }
+
+            const contacto = validarDatosContacto();
+            if (!contacto) return;
+
+            const asientosOrdenados = [...asientosElegidos].sort((a, b) => a - b);
+            const listaAsientosTexto = asientosOrdenados.map(n => `Asiento ${n}`).join(', ');
+            const fechaFormateada = fechaSeleccionada.toLocaleDateString('es-PE', { year: 'numeric', month: 'long', day: 'numeric' });
+            const lineaHorario = horarioSeleccionado
+                ? `* Horario: ${horarioSeleccionado.hora} (${horarioSeleccionado.turno})\n`
+                : '';
+
+            const mensaje = `Hola, quisiera reservar pasajes en *Manantial Tours* con el siguiente detalle:\n\n` +
+                `* Ruta: ${origenSeleccionado} ➔ ${destinoSeleccionado}\n` +
+                `* Fecha de viaje: ${fechaFormateada}\n` +
+                lineaHorario +
+                `* Pasajeros: ${requeridos}\n` +
+                `* Asientos elegidos: ${listaAsientosTexto}\n\n` +
+                `*Datos de contacto:*\n` +
+                `- Nombre: ${contacto.nombre}\n` +
+                `- DNI: ${contacto.dni}\n` +
+                `- Edad: ${contacto.edad} años\n\n` +
+                `Quedo atento a la confirmación y tarifa. ¡Gracias!`;
             
             const urlWhatsApp = `https://wa.me/51946704105?text=${encodeURIComponent(mensaje)}`;
 
             if (typeof gtag === 'function') {
                 gtag('event', 'clic_cotizador_whatsapp', {
                     'event_category': 'Conversión',
-                    'event_label': `${origenSeleccionado} a ${destinoSeleccionado} (${asientos} pas - ${fechaFormateada})`
+                    'event_label': `${origenSeleccionado} a ${destinoSeleccionado} | ${horarioSeleccionado ? horarioSeleccionado.hora + ' | ' : ''}Asientos: ${asientosOrdenados.join(',')} (${fechaFormateada})`
                 });
             }
 
