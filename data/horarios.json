@@ -1,0 +1,42 @@
+[
+    { 
+        "id": 1, 
+        "turno": "Primera salida", 
+        "hora": "6:00 AM", 
+        "servicio": "TURÍSTICO", 
+        "terminal": "ÓVALO INFANTAS", 
+        "ocupados": [4, 7, 12] 
+    },
+    { 
+        "id": 2, 
+        "turno": "Segunda salida", 
+        "hora": "9:00 AM", 
+        "servicio": "TURÍSTICO", 
+        "terminal": "ÓVALO INFANTAS", 
+        "ocupados": [2, 5, 9, 14] 
+    },
+    { 
+        "id": 3, 
+        "turno": "Tercera salida", 
+        "hora": "12:00 M", 
+        "servicio": "TURÍSTICO", 
+        "terminal": "ÓVALO INFANTAS", 
+        "ocupados": [1, 6, 11] 
+    },
+    { 
+        "id": 4, 
+        "turno": "Cuarta salida", 
+        "hora": "3:00 PM", 
+        "servicio": "TURÍSTICO", 
+        "terminal": "ÓVALO INFANTAS", 
+        "ocupados": [3, 8] 
+    },
+    { 
+        "id": 5, 
+        "turno": "Quinta salida", 
+        "hora": "5:00 PM", 
+        "servicio": "TURÍSTICO", 
+        "terminal": "ÓVALO INFANTAS", 
+        "ocupados": [10, 15, 16] 
+    }
+]

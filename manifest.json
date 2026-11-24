@@ -1,0 +1,21 @@
+{
+  "name": "Manantial Tours | Pasajes a Churín",
+  "short_name": "Manantial",
+  "description": "Compra de pasajes Lima - Churín de forma rápida y segura.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#10b981",
+  "icons": [
+    {
+      "src": "assets/img/manantialtours_logo.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "assets/img/manantialtours_logo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}
