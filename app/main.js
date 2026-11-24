@@ -6,9 +6,9 @@ let destinoSeleccionado = "Churín";
 let fechaSeleccionada = new Date();
 let horarioSeleccionado = null;
 
-let salidasLimaChurin = []; // Se llenará desde el JSON
+let salidasLimaChurin = []; 
 
-const ocupadosRetornoChurinLima = [3, 8, 11];
+const ocupadosRetornoChurinLima = [1, 2];
 let asientosOcupados = [...ocupadosRetornoChurinLima];
 let asientosElegidos = [];
 
@@ -29,35 +29,23 @@ let slideActual = 0;
 const totalSlides = 2;
 const titulosSlides = ["Nuestra Flota: Hyundai H350", "Nuestra Flota: DFSK Glory 580"];
 
-// ============================================================
-// CARGA DINÁMICA DE DATOS (JSON)
-// ============================================================
-async function cargarHorarios() {
-    try {
-        const respuesta = await fetch('./data/horarios.json');
-        if (!respuesta.ok) throw new Error("Error al cargar JSON");
-        salidasLimaChurin = await respuesta.json();
-    } catch (error) {
-        console.warn("Fallo al cargar horarios.json. Usando datos de respaldo.", error);
-        // Respaldo en caso de que falle el fetch (ej. abriendo el HTML directamente sin servidor)
-        salidasLimaChurin = [
-            { id: 1, turno: "Primera salida", hora: "6:00 AM", servicio: "TURÍSTICO", terminal: "ÓVALO INFANTAS", ocupados: [4, 7, 12] },
-            { id: 2, turno: "Segunda salida", hora: "9:00 AM", servicio: "TURÍSTICO", terminal: "ÓVALO INFANTAS", ocupados: [2, 5, 9, 14] },
-            { id: 3, turno: "Tercera salida", hora: "12:00 M", servicio: "TURÍSTICO", terminal: "ÓVALO INFANTAS", ocupados: [1, 6, 11] },
-            { id: 4, turno: "Cuarta salida", hora: "3:00 PM", servicio: "TURÍSTICO", terminal: "ÓVALO INFANTAS", ocupados: [3, 8] },
-            { id: 5, turno: "Quinta salida", hora: "5:00 PM", servicio: "TURÍSTICO", terminal: "ÓVALO INFANTAS", ocupados: [10, 15, 16] }
-        ];
-    }
-}
+let currentHeroSlide = 0;
+let heroInterval = null;
+
+const ETIQUETA_PRECIO_FULLDAY = "consulta precio por wspp";
+
+let toursData = [];
+let tourSeleccionadoActual = null;
 
 // ============================================================
-// INICIALIZACIÓN
+// INICIALIZACIÓN Y CARGA DE DATOS
 // ============================================================
 document.addEventListener('DOMContentLoaded', async () => {
-    // 1. Cargar datos del JSON
+    // 1. Cargar datos
     await cargarHorarios();
+    await cargarTours();
 
-    // 2. Recuperar datos de LocalStorage (Memoria)
+    // 2. Recuperar datos de LocalStorage
     const origenGuardado = localStorage.getItem('mt_origen');
     const destinoGuardado = localStorage.getItem('mt_destino');
     
@@ -82,38 +70,279 @@ document.addEventListener('DOMContentLoaded', async () => {
     initHeroCarousel();
 });
 
+async function cargarHorarios() {
+    try {
+        const respuesta = await fetch('./data/horarios.json');
+        if (!respuesta.ok) throw new Error("Error al cargar JSON");
+        salidasLimaChurin = await respuesta.json();
+    } catch (error) {
+        console.warn("Fallo al cargar horarios.json. Usando respaldo.", error);
+        salidasLimaChurin = [
+            { id: 1, turno: "Primera salida", hora: "6:00 AM", servicio: "TURÍSTICO", terminal: "ÓVALO INFANTAS", ocupados: [1, 2] },
+            { id: 2, turno: "Segunda salida", hora: "9:00 AM", servicio: "TURÍSTICO", terminal: "ÓVALO INFANTAS", ocupados: [1, 2] },
+            { id: 3, turno: "Tercera salida", hora: "12:00 M", servicio: "TURÍSTICO", terminal: "ÓVALO INFANTAS", ocupados: [1, 2] },
+            { id: 4, turno: "Cuarta salida", hora: "3:00 PM", servicio: "TURÍSTICO", terminal: "ÓVALO INFANTAS", ocupados: [1, 2] },
+            { id: 5, turno: "Quinta salida", hora: "5:00 PM", servicio: "TURÍSTICO", terminal: "ÓVALO INFANTAS", ocupados: [1, 2] }
+        ];
+    }
+}
+
+function normalizarTours(lista) {
+    return lista.map(t => ({
+        ...t,
+        precio: ETIQUETA_PRECIO_FULLDAY,
+        modalidad: "Contrato ida y vuelta • Vehículo completo"
+    }));
+}
+
+async function cargarTours() {
+    const respaldos = [
+        {
+            "id": "velos-de-novia",
+            "titulo": "Full Day Velos de Novia",
+            "imagen": "assets/img/fullday1_imagen1.jpg",
+            "descripcion": "Disfruta de una impresionante caída de agua rodeada de naturaleza y aire puro. Contrato ida y vuelta con vehículo completo.",
+            "incluye": ["Transporte turístico ida y vuelta (vehículo completo)", "Seguro SOAT", "Botiquín"],
+            "no_incluye": ["Almuerzo", "Entradas", "Gastos personales"],
+            "itinerario": ["05:00 AM - Salida de Óvalo Infantas", "08:30 AM - Llegada y caminata", "01:00 PM - Almuerzo libre", "05:00 PM - Retorno a Lima"]
+        },
+        {
+            "id": "huancahuasi",
+            "titulo": "Full Day Baños de Huancahuasi",
+            "imagen": "assets/img/fullday2_imagen1.jpg",
+            "descripcion": "Relájate en las aguas termales medicinales en medio de las montañas. Contrato ida y vuelta con vehículo completo.",
+            "incluye": ["Transporte turístico ida y vuelta (vehículo completo)", "Seguro SOAT"],
+            "no_incluye": ["Almuerzo", "Entrada a baños termales"],
+            "itinerario": ["06:00 AM - Salida de Lima", "10:00 AM - Llegada a Huancahuasi", "02:00 PM - Almuerzo", "06:00 PM - Retorno"]
+        },
+        {
+            "id": "nevado-raura",
+            "titulo": "Full Day Nevado de Raura",
+            "imagen": "assets/img/fullday3_imagen1.jpg",
+            "descripcion": "Aventura extrema en la nieve a más de 4000 msnm. Contrato ida y vuelta con vehículo completo.",
+            "incluye": ["Transporte ida y vuelta (vehículo completo)","Seguro SOAT", "Desayuno"],
+            "no_incluye": ["Almuerzo", "Alquiler de ropa de nieve"],
+            "itinerario": ["04:00 AM - Salida", "09:00 AM - Llegada al nevado", "02:00 PM - Descenso", "07:00 PM - Lima"]
+        },
+        {
+            "id": "churin-tour",
+            "titulo": "Full Day Churín",
+            "imagen": "assets/img/fullday4_imagen1.jpg",
+            "descripcion": "Conoce Mamahuarmi, Tingo y disfruta del clima y gastronomía de Churín. Contrato ida y vuelta con vehículo completo.",
+            "incluye": ["Transporte turístico ida y vuelta (vehículo completo)",  "City Tour"],
+            "no_incluye": ["Almuerzo", "Entradas a termales"],
+            "itinerario": ["06:00 AM - Salida", "10:00 AM - Sayán", "12:00 PM - Mamahuarmi", "04:00 PM - Tingo"]
+        },
+        {
+            "id": "huacachina",
+            "titulo": "Full Day Laguna de Huacachina",
+            "imagen": "assets/img/fullday5_imagen1.jpg",
+            "descripcion": "El oasis de América en Ica. Contrato ida y vuelta con vehículo completo.",
+            "incluye": ["Transporte ida y vuelta (vehículo completo)", "Paseo en Tubular", "Tabla de sandboard"],
+            "no_incluye": ["Almuerzo", "Bodega vitivinícola"],
+            "itinerario": ["06:00 AM - Salida", "12:00 PM - Llegada a Ica", "03:00 PM - Tubulares", "09:00 PM - Lima"]
+        },
+        {
+            "id": "paracas",
+            "titulo": "Full Day Paracas - Islas Ballestas",
+            "imagen": "assets/img/fullday6_imagen1.jpg",
+            "descripcion": "Disfruta de Paracas y su entorno marino. Contrato ida y vuelta con vehículo completo.",
+            "incluye": ["Transporte ida y vuelta (vehículo completo)", "Paseo en deslizador"],
+            "no_incluye": ["Almuerzo", "Tasa de embarque"],
+            "itinerario": ["04:00 AM - Salida", "08:00 AM - Bote a Ballestas", "01:00 PM - Reserva Nacional", "07:00 PM - Lima"]
+        },
+        {
+            "id": "machu-picchu-limeno",
+            "titulo": "Full Day Machu Picchu Limeño",
+            "imagen": "assets/img/fullday7_imagen1.jpg",
+            "descripcion": "Recorrido cultural e histórico. Contrato ida y vuelta con vehículo completo.",
+            "incluye": ["Transporte ida y vuelta (vehículo completo)", "Ticket de entrada"],
+            "no_incluye": ["Almuerzo"],
+            "itinerario": ["08:00 AM - Salida", "10:00 AM - Recorrido guiado", "02:00 PM - Almuerzo", "05:00 PM - Retorno"]
+        },
+        {
+            "id": "lunahuana",
+            "titulo": "Full Day Lunahuaná",
+            "imagen": "assets/img/fullday8_imagen1.jpg",
+            "descripcion": "Aventura y naturaleza en el valle de Lunahuaná. Contrato ida y vuelta con vehículo completo.",
+            "incluye": ["Transporte ida y vuelta (vehículo completo)", "Canotaje básico"],
+            "no_incluye": ["Almuerzo", "Deportes extra"],
+            "itinerario": ["06:00 AM - Salida", "10:00 AM - Canotaje", "01:00 PM - Almuerzo", "04:00 PM - Viñedos", "08:00 PM - Lima"]
+        }
+    ];
+
+    try {
+        const respuesta = await fetch('./data/fulldays.json');
+        if (!respuesta.ok) throw new Error("No se encontró el JSON");
+        const jsonTours = await respuesta.json();
+        toursData = normalizarTours(Array.isArray(jsonTours) && jsonTours.length > 0 ? jsonTours : respaldos);
+    } catch (error) {
+        console.warn("⚠️ Fallo al cargar fulldays.json. Usando datos de respaldo.", error);
+        toursData = normalizarTours(respaldos);
+    }
+    
+    renderizarTours();
+}
+
+// ============================================================
+// LÓGICA DE PESTAÑAS Y FULL DAYS
+// ============================================================
+function limpiarTodoPasajes() {
+    limpiarFlujoSeleccion();
+    const inputAsientos = document.getElementById('asientos');
+    if (inputAsientos) inputAsientos.value = 1;
+    const dni = document.getElementById('contactoDni');
+    const edad = document.getElementById('contactoEdad');
+    const nombre = document.getElementById('contactoNombre');
+    if (dni) dni.value = '';
+    if (edad) edad.value = '';
+    if (nombre) nombre.value = '';
+    asientosOcupados = [...ocupadosRetornoChurinLima];
+    renderMapaAsientos();
+    actualizarEstadoBotonSiguiente();
+}
+
+function cambiarPestana(pestana) {
+    const tabPasajes = document.getElementById('tabPasajes');
+    const tabTours = document.getElementById('tabTours');
+    const formPasajes = document.getElementById('formPasajes');
+    const seccionFullDays = document.getElementById('seccionFullDays');
+
+    if (pestana === 'pasajes') {
+        tabPasajes.className = "flex-1 py-3 text-center font-extrabold text-emerald-600 border-b-2 border-emerald-600 transition";
+        tabTours.className = "flex-1 py-3 text-center font-extrabold text-slate-400 hover:text-teal-700 border-b-2 border-transparent transition";
+        formPasajes.classList.remove('hidden');
+        seccionFullDays.classList.add('hidden');
+        tourSeleccionadoActual = null;
+    } else {
+        // Limpiar todo lo realizado en Pasajes al entrar a Full Days
+        limpiarTodoPasajes();
+        tabTours.className = "flex-1 py-3 text-center font-extrabold text-emerald-600 border-b-2 border-emerald-600 transition";
+        tabPasajes.className = "flex-1 py-3 text-center font-extrabold text-slate-400 hover:text-teal-700 border-b-2 border-transparent transition";
+        formPasajes.classList.add('hidden');
+        seccionFullDays.classList.remove('hidden');
+        seccionFullDays.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
+function renderizarTours() {
+    const contenedor = document.getElementById('contenedorTours');
+    if (!contenedor) return;
+
+    contenedor.innerHTML = '';
+    toursData.forEach(tour => {
+        const card = document.createElement('div');
+        card.className = "bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl transition-all cursor-pointer group flex flex-col";
+        card.onclick = () => abrirModalTour(tour.id);
+
+        card.innerHTML = `
+            <div class="h-48 overflow-hidden relative bg-slate-100">
+                <img src="${tour.imagen}" alt="${tour.titulo}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" onerror="this.src='https://via.placeholder.com/400x300?text=Manantial+Tours'">
+                <div class="absolute top-2 right-2 bg-emerald-600 text-white text-[11px] font-extrabold px-2.5 py-1 rounded-lg shadow-md">
+                    ${ETIQUETA_PRECIO_FULLDAY}
+                </div>
+                <div class="absolute bottom-2 left-2 bg-slate-900/80 text-emerald-200 text-[10px] font-bold px-2.5 py-0.5 rounded-lg">
+                    Ida y vuelta • Vehículo completo
+                </div>
+            </div>
+            <div class="p-4 flex flex-col flex-1 justify-between">
+                <div>
+                    <h3 class="font-extrabold text-slate-900 text-base mb-1 line-clamp-1">${tour.titulo}</h3>
+                    <p class="text-xs text-slate-500 line-clamp-2">${tour.descripcion}</p>
+                </div>
+                <div class="mt-3 pt-3 border-t border-slate-100 flex justify-between items-center">
+                    <span class="text-[10px] font-bold text-emerald-600 uppercase tracking-wider">Ver Detalles</span>
+                    <i class="fa-solid fa-arrow-right text-emerald-600 text-xs group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </div>
+        `;
+        contenedor.appendChild(card);
+    });
+}
+
+function abrirModalTour(id) {
+    const tour = toursData.find(t => t.id === id);
+    if (!tour) return;
+
+    tourSeleccionadoActual = tour;
+
+    document.getElementById('modalImg').src = tour.imagen;
+    document.getElementById('modalTitulo').innerText = tour.titulo;
+    document.getElementById('modalPrecio').innerText = ETIQUETA_PRECIO_FULLDAY;
+    document.getElementById('modalDesc').innerText = tour.descripcion;
+
+    document.getElementById('modalIncluye').innerHTML = tour.incluye.map(item => `<li>${item}</li>`).join('');
+    document.getElementById('modalNoIncluye').innerHTML = tour.no_incluye.map(item => `<li>${item}</li>`).join('');
+    document.getElementById('modalItinerario').innerHTML = tour.itinerario.map(item => `<li class="relative before:content-[''] before:absolute before:-left-[17px] before:top-1.5 before:w-2 before:h-2 before:bg-emerald-500 before:rounded-full">${item}</li>`).join('');
+
+    document.getElementById('modalTour').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function cerrarModalTour() {
+    document.getElementById('modalTour').classList.add('hidden');
+    document.body.style.overflow = 'auto';
+    tourSeleccionadoActual = null;
+}
+
+window.addEventListener('click', (e) => {
+    const modal = document.getElementById('modalTour');
+    if (e.target === modal) {
+        cerrarModalTour();
+    }
+});
+
+function reservarTourWhatsApp() {
+    if (!tourSeleccionadoActual) return;
+
+    const mensaje = `Hola, estoy interesado en el *${tourSeleccionadoActual.titulo}* (contrato ida y vuelta, vehículo completo).%0A%0A` +
+        `Por favor, quisiera consultar precio y disponibilidad.%0A%0A` +
+        `*Tour:* ${tourSeleccionadoActual.titulo}%0A` +
+        `*Modalidad:* Ida y vuelta - Vehículo completo%0A` +
+        `*Tarifa:* ${ETIQUETA_PRECIO_FULLDAY}%0A`;
+    
+    const urlWhatsApp = `https://wa.me/51946704105?text=${mensaje}`;
+
+    if (typeof gtag === 'function') {
+        gtag('event', 'clic_reserva_tour', {
+            'event_category': 'Conversión',
+            'event_label': tourSeleccionadoActual.titulo
+        });
+    }
+    window.open(urlWhatsApp, '_blank');
+}
+
 // ============================================================
 // LÓGICA DEL CARRUSEL PRINCIPAL (HERO SECTION)
 // ============================================================
+function moverHero(direccion) {
+    const heroTrack = document.getElementById('heroTrack');
+    if (!heroTrack) return;
+    const heroSlides = heroTrack.querySelectorAll('.snap-center');
+    if (heroSlides.length === 0) return;
+
+    currentHeroSlide = (currentHeroSlide + direccion + heroSlides.length) % heroSlides.length;
+    heroTrack.scrollTo({ left: heroSlides[currentHeroSlide].offsetLeft, behavior: 'smooth' });
+}
+
 function initHeroCarousel() {
     const heroTrack = document.getElementById('heroTrack');
     if (!heroTrack) return;
 
     const heroSlides = heroTrack.querySelectorAll('.snap-center');
     if (heroSlides.length === 0) return;
-    
-    let currentHeroSlide = 0;
-    let heroInterval;
 
-    function nextHeroSlide() {
-        currentHeroSlide = (currentHeroSlide + 1) % heroSlides.length;
-        const scrollAmount = heroSlides[currentHeroSlide].offsetLeft;
-        heroTrack.scrollTo({ left: scrollAmount, behavior: 'smooth' });
+    function reiniciarIntervaloHero() {
+        clearInterval(heroInterval);
+        heroInterval = setInterval(() => moverHero(1), 3500);
     }
 
-    heroInterval = setInterval(nextHeroSlide, 3500);
+    reiniciarIntervaloHero();
 
     heroTrack.addEventListener('mouseenter', () => clearInterval(heroInterval));
-    heroTrack.addEventListener('mouseleave', () => {
-        clearInterval(heroInterval);
-        heroInterval = setInterval(nextHeroSlide, 3500);
-    });
-
+    heroTrack.addEventListener('mouseleave', reiniciarIntervaloHero);
     heroTrack.addEventListener('touchstart', () => clearInterval(heroInterval));
-    heroTrack.addEventListener('touchend', () => {
-        clearInterval(heroInterval);
-        heroInterval = setInterval(nextHeroSlide, 3500);
-    });
+    heroTrack.addEventListener('touchend', reiniciarIntervaloHero);
 }
 
 // ============================================================
@@ -127,7 +356,7 @@ function moverCarrusel(direccion) {
 }
 
 // ============================================================
-// LÓGICA DE SELECCIÓN Y DROPDOWNS
+// LÓGICA DE SELECCIÓN Y DROPDOWNS (PASAJES)
 // ============================================================
 function toggleDropdown(id) {
     document.querySelectorAll('[id^="dropdown"]').forEach(el => {
@@ -150,7 +379,7 @@ function seleccionarOrigen(valor) {
     origenSeleccionado = valor;
     document.getElementById('txtOrigen').innerText = valor;
     document.getElementById('dropdownOrigen').classList.add('hidden');
-    localStorage.setItem('mt_origen', valor); // Guardar en memoria
+    localStorage.setItem('mt_origen', valor);
     verificarRestriccionRuta();
     limpiarFlujoSeleccion();
 }
@@ -159,7 +388,7 @@ function seleccionarDestino(valor) {
     destinoSeleccionado = valor;
     document.getElementById('txtDestino').innerText = valor;
     document.getElementById('dropdownDestino').classList.add('hidden');
-    localStorage.setItem('mt_destino', valor); // Guardar en memoria
+    localStorage.setItem('mt_destino', valor);
     verificarRestriccionRuta();
     limpiarFlujoSeleccion();
 }
@@ -173,10 +402,6 @@ function verificarRestriccionRuta() {
         alerta.classList.add('hidden');
         return true;
     }
-}
-
-function esRutaLimaAChurin() {
-    return origenSeleccionado === "Lima (Óvalo Infantas)" && destinoSeleccionado === "Churín";
 }
 
 window.onclick = function(event) {
@@ -217,14 +442,14 @@ function setFechaSeleccionada(date) {
     const btnManana = document.getElementById('btnManana');
 
     if(date.toDateString() === hoy.toDateString()) {
-        btnHoy.className = "text-[11px] font-extrabold px-2.5 py-1 rounded-xl bg-rose-50 text-rose-700 border border-rose-200 transition";
-        btnManana.className = "text-[11px] font-extrabold px-2.5 py-1 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 transition";
+        btnHoy.className = "text-[11px] font-extrabold px-2.5 py-1 rounded-xl bg-emerald-600 text-white border border-emerald-600 transition";
+        btnManana.className = "text-[11px] font-extrabold px-2.5 py-1 rounded-xl bg-slate-100 text-slate-700 hover:bg-teal-50 transition";
     } else if(date.toDateString() === manana.toDateString()) {
-        btnHoy.className = "text-[11px] font-extrabold px-2.5 py-1 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 transition";
-        btnManana.className = "text-[11px] font-extrabold px-2.5 py-1 rounded-xl bg-rose-50 text-rose-700 border border-rose-200 transition";
+        btnHoy.className = "text-[11px] font-extrabold px-2.5 py-1 rounded-xl bg-slate-100 text-slate-700 hover:bg-teal-50 transition";
+        btnManana.className = "text-[11px] font-extrabold px-2.5 py-1 rounded-xl bg-emerald-600 text-white border border-emerald-600 transition";
     } else {
-        btnHoy.className = "text-[11px] font-extrabold px-2.5 py-1 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 transition";
-        btnManana.className = "text-[11px] font-extrabold px-2.5 py-1 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 transition";
+        btnHoy.className = "text-[11px] font-extrabold px-2.5 py-1 rounded-xl bg-slate-100 text-slate-700 hover:bg-teal-50 transition";
+        btnManana.className = "text-[11px] font-extrabold px-2.5 py-1 rounded-xl bg-slate-100 text-slate-700 hover:bg-teal-50 transition";
     }
 }
 
@@ -269,11 +494,11 @@ function renderCalendario() {
         } else {
             classes += "cursor-pointer ";
             if(esSeleccionado) {
-                classes += "bg-slate-900 text-white shadow-md";
+                classes += "bg-emerald-600 text-white shadow-md";
             } else if(esHoy) {
-                classes += "border border-slate-900 text-slate-900 hover:bg-slate-100";
+                classes += "border border-emerald-600 text-emerald-700 hover:bg-emerald-50";
             } else {
-                classes += "hover:bg-slate-100 text-slate-700";
+                classes += "hover:bg-teal-50 text-slate-700";
             }
             html += `<div onclick="seleccionarFechaDia(${anioActual}, ${mesActual}, ${i})" class="${classes}">${i}</div>`;
         }
@@ -293,7 +518,7 @@ function seleccionarFechaDia(anio, mes, dia) {
 }
 
 // ============================================================
-// BÚSQUEDA DE SALIDAS Y TARJETAS
+// BÚSQUEDA DE SALIDAS (SIEMPRE MUESTRA HORARIOS PRIMERO)
 // ============================================================
 function buscarHorariosDisponibles() {
     if (!verificarRestriccionRuta()) return;
@@ -310,54 +535,57 @@ function buscarHorariosDisponibles() {
     const btn = document.getElementById('btnBuscarSalidas');
     const textoOriginal = btn.innerHTML;
     
-    // Mostrar Spinner
-    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-emerald-400 text-sm"></i><span>Buscando...</span>';
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-white text-sm"></i><span>Buscando...</span>';
     btn.disabled = true;
 
-    // Simulamos retardo para UX
     setTimeout(() => {
         btn.innerHTML = textoOriginal;
         btn.disabled = false;
 
-        if (esRutaLimaAChurin()) {
-            document.getElementById('seccionMapaAsientos').classList.add('hidden');
-            ocultarResumenReserva();
-            renderTarjetasHorarios();
-            const secHorarios = document.getElementById('seccionHorarios');
-            secHorarios.classList.remove('hidden');
-            secHorarios.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        } else {
-            document.getElementById('seccionHorarios').classList.add('hidden');
-            horarioSeleccionado = null;
-            asientosOcupados = [...ocupadosRetornoChurinLima];
-            asientosElegidos = [];
-            seleccionExpirada = false;
-            detenerYReiniciarTemporizador();
-            ocultarResumenReserva();
+        // Paso 1: ocultar mapa de asientos y resumen hasta elegir un horario
+        horarioSeleccionado = null;
+        asientosElegidos = [];
+        seleccionExpirada = false;
+        detenerYReiniciarTemporizador();
+        document.getElementById('seccionMapaAsientos').classList.add('hidden');
+        ocultarResumenReserva();
 
-            document.getElementById('subtituloUnidadHorario').innerText = `Hyundai H350 • ${origenSeleccionado} ➔ ${destinoSeleccionado}`;
+        // Paso 2: mostrar todas las salidas disponibles para seleccionar horario
+        renderTarjetasHorarios();
+        const secHorarios = document.getElementById('seccionHorarios');
+        secHorarios.classList.remove('hidden');
+        secHorarios.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 600);
+}
 
-            const seccion = document.getElementById('seccionMapaAsientos');
-            seccion.classList.remove('hidden');
-            ocultarAlertaAsientos();
-            renderMapaAsientos();
-            actualizarVistaTemporizador();
-            actualizarEstadoBotonSiguiente();
-            seccion.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-    }, 800);
+function obtenerSalidasDisponibles() {
+    const esRetorno = origenSeleccionado === "Churín" && destinoSeleccionado === "Lima (Óvalo Infantas)";
+    if (!esRetorno) {
+        return salidasLimaChurin;
+    }
+    return salidasLimaChurin.map(s => ({
+        ...s,
+        terminal: "CHURÍN",
+        ocupados: [...ocupadosRetornoChurinLima]
+    }));
 }
 
 function renderTarjetasHorarios() {
     const contenedor = document.getElementById('listaTarjetasHorarios');
     contenedor.innerHTML = '';
 
-    salidasLimaChurin.forEach(salida => {
+    const salidas = obtenerSalidasDisponibles();
+    const etiquetaRuta = document.getElementById('etiquetaRutaHorarios');
+    const resumenCant = document.getElementById('resumenCantidadHorarios');
+    if (etiquetaRuta) etiquetaRuta.innerText = `Salidas programadas • ${origenSeleccionado} ➔ ${destinoSeleccionado}`;
+    if (resumenCant) resumenCant.innerText = `${salidas.length} turnos disponibles`;
+
+    salidas.forEach(salida => {
         const disponibles = 18 - salida.ocupados.length;
         const esActiva = horarioSeleccionado && horarioSeleccionado.id === salida.id;
 
         const card = document.createElement('div');
-        card.className = `bg-white rounded-2xl border ${esActiva ? 'border-emerald-500 ring-2 ring-emerald-500/20' : 'border-slate-200'} p-3.5 sm:px-5 sm:py-4 shadow-sm hover:shadow-md transition flex flex-col sm:flex-row sm:items-center justify-between gap-3`;
+        card.className = `bg-white rounded-2xl border ${esActiva ? 'border-emerald-600 ring-2 ring-emerald-500/20' : 'border-slate-200'} p-3.5 sm:px-5 sm:py-4 shadow-sm hover:shadow-md transition flex flex-col sm:flex-row sm:items-center justify-between gap-3`;
 
         card.innerHTML = `
             <div class="flex items-center space-x-3">
@@ -386,7 +614,7 @@ function renderTarjetasHorarios() {
                 </div>
             </div>
 
-            <button type="button" onclick="seleccionarHorarioYVerAsientos(${salida.id})" class="${esActiva ? 'bg-emerald-600 hover:bg-emerald-500' : 'bg-rose-600 hover:bg-rose-500'} text-white font-extrabold text-xs px-4 py-2.5 rounded-xl shadow-sm transition flex items-center justify-center space-x-1.5 flex-shrink-0">
+            <button type="button" onclick="seleccionarHorarioYVerAsientos(${salida.id})" class="${esActiva ? 'bg-slate-900 hover:bg-slate-800' : 'bg-emerald-600 hover:bg-emerald-500'} text-white font-extrabold text-xs px-4 py-2.5 rounded-xl shadow-sm transition flex items-center justify-center space-x-1.5 flex-shrink-0">
                 <i class="fa-solid fa-chevron-right text-[10px]"></i>
                 <span>Ver asientos</span>
             </button>
@@ -396,9 +624,8 @@ function renderTarjetasHorarios() {
 }
 
 function seleccionarHorarioYVerAsientos(salidaId) {
-    if (!esRutaLimaAChurin()) return;
-
-    const salida = salidasLimaChurin.find(s => s.id === salidaId);
+    const salidas = obtenerSalidasDisponibles();
+    const salida = salidas.find(s => s.id === salidaId);
     if (!salida) return;
 
     const requeridos = obtenerCantidadRequerida();
@@ -445,11 +672,11 @@ function actualizarVistaTemporizador() {
     texto.innerText = formatearTiempo(segundosRestantes);
 
     if (seleccionExpirada) {
-        caja.className = "flex items-center space-x-1.5 sm:space-x-2 bg-red-50 border border-red-200 text-red-800 px-2.5 sm:px-3 py-1.5 rounded-xl";
+        caja.className = "flex items-center space-x-1.5 sm:space-x-2 bg-slate-100 border border-slate-300 text-slate-800 px-2.5 sm:px-3 py-1.5 rounded-xl";
     } else if (segundosRestantes <= 60 && asientosElegidos.length > 0) {
-        caja.className = "flex items-center space-x-1.5 sm:space-x-2 bg-rose-50 border border-rose-300 text-rose-800 px-2.5 sm:px-3 py-1.5 rounded-xl animate-pulse";
+        caja.className = "flex items-center space-x-1.5 sm:space-x-2 bg-teal-100 border border-teal-400 text-teal-950 px-2.5 sm:px-3 py-1.5 rounded-xl animate-pulse";
     } else {
-        caja.className = "flex items-center space-x-1.5 sm:space-x-2 bg-amber-50 border border-amber-200 text-amber-900 px-2.5 sm:px-3 py-1.5 rounded-xl";
+        caja.className = "flex items-center space-x-1.5 sm:space-x-2 bg-teal-50 border border-teal-200 text-teal-950 px-2.5 sm:px-3 py-1.5 rounded-xl";
     }
 }
 
@@ -503,10 +730,10 @@ function actualizarEstadoBotonSiguiente() {
 
     if (seleccionExpirada) {
         btn.disabled = true;
-        btn.className = "bg-slate-300 text-slate-500 font-extrabold py-3 px-6 rounded-2xl cursor-not-allowed flex items-center justify-center space-x-2 text-sm tracking-wide";
+        btn.className = "bg-slate-200 text-slate-400 font-extrabold py-3 px-6 rounded-2xl cursor-not-allowed flex items-center justify-center space-x-2 text-sm tracking-wide";
     } else {
         btn.disabled = false;
-        btn.className = "bg-rose-600 hover:bg-rose-500 text-white font-extrabold py-3 px-6 rounded-2xl shadow-md transition flex items-center justify-center space-x-2 text-sm tracking-wide";
+        btn.className = "bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-3 px-6 rounded-2xl shadow-md transition flex items-center justify-center space-x-2 text-sm tracking-wide";
     }
 }
 
@@ -739,7 +966,6 @@ function enviarResumenWhatsApp() {
     const contacto = validarDatosContacto();
     if (!contacto) return;
 
-    // Generar código único de reserva
     const codigoReserva = `MT-${Math.floor(1000 + Math.random() * 9000)}`;
 
     const asientosOrdenados = [...asientosElegidos].sort((a, b) => a - b);

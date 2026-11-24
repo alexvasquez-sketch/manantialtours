@@ -29,7 +29,7 @@
 
     <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#10b981">
+    <meta name="theme-color" content="#059669">
 
     <!-- Fuentes y Librerías Externas -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -56,15 +56,15 @@
                 </div>
                 <div class="truncate">
                     <span class="font-extrabold text-xs sm:text-sm block leading-tight text-slate-900 truncate">MANANTIAL TOURS S.A.C.</span>
-                    <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider hidden sm:block">Transporte Terrestre</span>
+                    <span class="text-[10px] text-teal-700 font-semibold uppercase tracking-wider hidden sm:block">Transporte Terrestre</span>
                 </div>
             </div>
 
             <div class="flex items-center space-x-2 sm:space-x-2.5 flex-shrink-0">
-                <div id="cajaTemporizador" class="flex items-center space-x-1.5 sm:space-x-2 bg-amber-50 border border-amber-200 text-amber-900 px-2.5 sm:px-3 py-1.5 rounded-xl">
-                    <i class="fa-regular fa-clock text-amber-600 text-xs sm:text-sm"></i>
+                <div id="cajaTemporizador" class="flex items-center space-x-1.5 sm:space-x-2 bg-teal-50 border border-teal-200 text-teal-950 px-2.5 sm:px-3 py-1.5 rounded-xl">
+                    <i class="fa-regular fa-clock text-emerald-600 text-xs sm:text-sm"></i>
                     <div class="leading-none">
-                        <span class="block text-[8px] sm:text-[9px] font-extrabold uppercase tracking-wider text-amber-700">Tiempo</span>
+                        <span class="block text-[8px] sm:text-[9px] font-extrabold uppercase tracking-wider text-teal-700">Tiempo</span>
                         <span id="temporizadorTexto" class="text-xs sm:text-sm font-extrabold tabular-nums">05:00</span>
                     </div>
                 </div>
@@ -77,40 +77,44 @@
         </div>
     </header>
 
-    <!-- HERO CAROUSEL (Cabecera deslizable) -->
-     <div class="w-full bg-slate-50 pt-4 pb-2">
+    <!-- HERO CAROUSEL CON BOTONES ANTERIOR / SIGUIENTE -->
+    <div class="w-full bg-slate-50 pt-4 pb-2">
         <section class="w-full max-w-7xl mx-auto px-2 sm:px-4">
-            <div class="relative rounded-3xl overflow-hidden shadow-lg bg-slate-900">
-                <!-- Contenedor deslizable -->
+            <div class="relative rounded-3xl overflow-hidden shadow-lg bg-slate-900 group">
                 <div id="heroTrack" class="flex w-full aspect-[4/3] sm:aspect-[16/9] lg:aspect-[21/9] overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar select-none">
-                    
-                    <!-- Slide 1 -->
                     <div class="w-full h-full flex-shrink-0 snap-center relative overflow-hidden">
                         <img src="assets/img/hyundai_h350.jpg" alt="Viaja a Churín" draggable="false" class="w-full h-full object-cover object-center pointer-events-none" loading="lazy">
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent flex flex-col items-center justify-center text-center px-4">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent flex flex-col items-center justify-center text-center px-12 sm:px-16">
                             <h2 class="text-white text-2xl sm:text-4xl md:text-5xl font-extrabold mb-2 drop-shadow-lg">Viaja seguro a Churín</h2>
-                            <p class="text-white text-sm sm:text-base md:text-xl font-semibold drop-shadow-md">Salidas diarias desde Óvalo Infantas</p>
+                            <p class="text-emerald-200 text-sm sm:text-base md:text-xl font-semibold drop-shadow-md">Salidas diarias desde Óvalo Infantas</p>
                         </div>
                     </div>
-
-                    <!-- Slide 2 -->
                     <div class="w-full h-full flex-shrink-0 snap-center relative overflow-hidden">
                         <img src="assets/img/dfsk_glory580.jpg" alt="Comodidad y confort" draggable="false" class="w-full h-full object-cover object-center pointer-events-none" loading="lazy">
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent flex flex-col items-center justify-center text-center px-4">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent flex flex-col items-center justify-center text-center px-12 sm:px-16">
                             <h2 class="text-white text-2xl sm:text-4xl md:text-5xl font-extrabold mb-2 drop-shadow-lg">Comodidad en cada viaje</h2>
-                            <p class="text-white text-sm sm:text-base md:text-xl font-semibold drop-shadow-md">Unidades modernas para tu máximo confort</p>
+                            <p class="text-emerald-200 text-sm sm:text-base md:text-xl font-semibold drop-shadow-md">Unidades modernas para tu máximo confort</p>
                         </div>
                     </div>
-
-                    <!-- Slide 3 -->
-                    <div class="w-full h-full flex-shrink-0 snap-center relative overflow-hidden bg-slate-800">
-                        <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+                    <div class="w-full h-full flex-shrink-0 snap-center relative overflow-hidden bg-gradient-to-br from-slate-900 via-teal-950 to-emerald-950">
+                        <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-12 sm:px-16">
                             <h2 class="text-white text-2xl sm:text-4xl md:text-5xl font-extrabold mb-2 drop-shadow-lg">Compra tus pasajes aquí</h2>
-                            <p class="text-white text-sm sm:text-base md:text-xl font-semibold drop-shadow-md">Selecciona tu horario y asiento favorito</p>
+                            <p class="text-emerald-200 text-sm sm:text-base md:text-xl font-semibold drop-shadow-md">Selecciona tu horario y asiento favorito</p>
                         </div>
                     </div>
-
                 </div>
+
+                <!-- Botón Anterior (Izquierda) -->
+                <button type="button" onclick="moverHero(-1)" aria-label="Imagen anterior" class="absolute left-3 top-1/2 -translate-y-1/2 z-20 bg-slate-900/75 hover:bg-emerald-600 text-white font-extrabold text-xs sm:text-sm px-2.5 sm:px-3.5 py-2 rounded-xl border border-white/20 backdrop-blur-sm shadow-md transition flex items-center space-x-1.5">
+                    <i class="fa-solid fa-chevron-left text-xs"></i>
+                    <span class="hidden sm:inline">Anterior</span>
+                </button>
+
+                <!-- Botón Siguiente (Derecha) -->
+                <button type="button" onclick="moverHero(1)" aria-label="Siguiente imagen" class="absolute right-3 top-1/2 -translate-y-1/2 z-20 bg-slate-900/75 hover:bg-emerald-600 text-white font-extrabold text-xs sm:text-sm px-2.5 sm:px-3.5 py-2 rounded-xl border border-white/20 backdrop-blur-sm shadow-md transition flex items-center space-x-1.5">
+                    <span class="hidden sm:inline">Siguiente</span>
+                    <i class="fa-solid fa-chevron-right text-xs"></i>
+                </button>
             </div>
         </section>
     </div>
@@ -120,7 +124,7 @@
         
         <!-- LOGO PRINCIPAL -->
         <div id="logoPrincipal" class="flex justify-center mb-1">
-            <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-white border-2 border-slate-200/80 shadow-md flex items-center justify-center overflow-hidden p-2 transition-transform hover:scale-105">
+            <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-white border-2 border-emerald-500/40 shadow-md flex items-center justify-center overflow-hidden p-2 transition-transform hover:scale-105">
                 <img src="assets/img/manantialtours_logo.jpg" alt="Manantial Tours Logo Principal" class="w-full h-full object-cover rounded-full" onerror="this.onerror=null; this.src='https://via.placeholder.com/150?text=Manantial';" loading="lazy">
             </div>
         </div>
@@ -136,126 +140,149 @@
         </div>
 
         <!-- TARJETA DE BÚSQUEDA MODERNA -->
-        <div class="bg-white p-3 sm:p-4 rounded-3xl border border-slate-200/90 shadow-lg max-w-2xl mx-auto text-left space-y-2 relative">
+        <div class="bg-white p-3 sm:p-4 rounded-3xl border border-slate-200/90 shadow-lg max-w-2xl mx-auto text-left space-y-4 relative">
             
-            <!-- Fila Origen y Destino -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 relative">
-                
-                <!-- ORIGEN -->
-                <div class="relative">
-                    <div onclick="toggleDropdown('dropdownOrigen')" class="bg-slate-50 hover:bg-slate-100/80 transition border border-slate-200/80 rounded-2xl p-3 flex items-center space-x-3 cursor-pointer">
-                        <div class="text-slate-400 text-lg pl-1"><i class="fa-solid fa-bus"></i></div>
-                        <div class="flex-1">
-                            <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Origen</span>
-                            <span id="txtOrigen" class="block text-sm font-extrabold text-slate-900 truncate">Lima (Óvalo Infantas)</span>
-                        </div>
-                        <div class="text-slate-400 text-xs pr-1"><i class="fa-solid fa-chevron-down"></i></div>
-                    </div>
-                    <div id="dropdownOrigen" class="hidden absolute left-0 right-0 top-full mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl z-50 p-2 space-y-1">
-                        <div class="text-[10px] font-bold uppercase text-slate-400 px-3 py-1">Puntos principales</div>
-                        <div onclick="seleccionarOrigen('Lima (Óvalo Infantas)')" class="px-3 py-2.5 rounded-xl hover:bg-slate-100 cursor-pointer text-sm font-bold text-slate-800 flex items-center space-x-2">
-                            <i class="fa-solid fa-location-dot text-emerald-600 text-xs"></i>
-                            <span>Lima (Óvalo Infantas)</span>
-                        </div>
-                        <div onclick="seleccionarOrigen('Churín')" class="px-3 py-2.5 rounded-xl hover:bg-slate-100 cursor-pointer text-sm font-bold text-slate-800 flex items-center space-x-2">
-                            <i class="fa-solid fa-location-dot text-emerald-600 text-xs"></i>
-                            <span>Churín</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- DESTINO -->
-                <div class="relative">
-                    <div onclick="toggleDropdown('dropdownDestino')" class="bg-slate-50 hover:bg-slate-100/80 transition border border-slate-200/80 rounded-2xl p-3 flex items-center space-x-3 cursor-pointer">
-                        <div class="text-slate-400 text-lg pl-1"><i class="fa-solid fa-location-dot"></i></div>
-                        <div class="flex-1">
-                            <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Destino</span>
-                            <span id="txtDestino" class="block text-sm font-extrabold text-slate-900 truncate">Churín</span>
-                        </div>
-                        <div class="text-slate-400 text-xs pr-1"><i class="fa-solid fa-chevron-down"></i></div>
-                    </div>
-                    <div id="dropdownDestino" class="hidden absolute left-0 right-0 top-full mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl z-50 p-2 space-y-1">
-                        <div class="text-[10px] font-bold uppercase text-slate-400 px-3 py-1">Rutas disponibles</div>
-                        <div onclick="seleccionarDestino('Churín')" class="px-3 py-2.5 rounded-xl hover:bg-slate-100 cursor-pointer text-sm font-bold text-slate-800 flex items-center space-x-2">
-                            <i class="fa-solid fa-location-dot text-emerald-600 text-xs"></i>
-                            <span>Churín</span>
-                        </div>
-                        <div onclick="seleccionarDestino('Lima (Óvalo Infantas)')" class="px-3 py-2.5 rounded-xl hover:bg-slate-100 cursor-pointer text-sm font-bold text-slate-800 flex items-center space-x-2">
-                            <i class="fa-solid fa-location-dot text-emerald-600 text-xs"></i>
-                            <span>Lima (Óvalo Infantas)</span>
-                        </div>
-                    </div>
-                </div>
-
+            <!-- PESTAÑAS -->
+            <div class="flex border-b border-slate-200 mb-2">
+                <button id="tabPasajes" type="button" onclick="cambiarPestana('pasajes')" class="flex-1 py-3 text-center font-extrabold text-emerald-600 border-b-2 border-emerald-600 transition">
+                    <i class="fa-solid fa-bus mr-1"></i> Pasajes
+                </button>
+                <button id="tabTours" type="button" onclick="cambiarPestana('tours')" class="flex-1 py-3 text-center font-extrabold text-slate-400 hover:text-teal-700 border-b-2 border-transparent transition">
+                    <i class="fa-solid fa-map-location-dot mr-1"></i> Full Days
+                </button>
             </div>
 
-            <!-- Alerta de restricción -->
-            <div id="alertaError" class="hidden bg-amber-600 text-white text-xs font-bold px-3 py-2 rounded-xl flex items-center space-x-2 shadow-sm animate-pulse">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-                <span>La ciudad de origen y destino no pueden ser la misma.</span>
-            </div>
-
-            <!-- Fila Fecha de Viaje y Asientos -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 relative">
-                
-                <!-- FECHA DE VIAJE -->
-                <div class="relative">
-                    <div onclick="toggleDropdown('dropdownFecha')" class="bg-slate-50 hover:bg-slate-100/80 transition border border-slate-200/80 rounded-2xl p-3 flex items-center space-x-3 cursor-pointer">
-                        <div class="text-slate-400 text-lg pl-1"><i class="fa-regular fa-calendar"></i></div>
-                        <div class="flex-1">
-                            <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Fecha de viaje</span>
-                            <span id="txtFecha" class="block text-sm font-extrabold text-slate-950 truncate">Seleccionar fecha</span>
+            <!-- CONTENIDO PASAJES -->
+            <div id="formPasajes" class="space-y-2">
+                <!-- Fila Origen y Destino -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-2 relative">
+                    <!-- ORIGEN -->
+                    <div class="relative">
+                        <div onclick="toggleDropdown('dropdownOrigen')" class="bg-slate-50 hover:bg-teal-50/50 transition border border-slate-200/80 rounded-2xl p-3 flex items-center space-x-3 cursor-pointer">
+                            <div class="text-teal-600 text-lg pl-1"><i class="fa-solid fa-bus"></i></div>
+                            <div class="flex-1">
+                                <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Origen</span>
+                                <span id="txtOrigen" class="block text-sm font-extrabold text-slate-900 truncate">Lima (Óvalo Infantas)</span>
+                            </div>
+                            <div class="text-slate-400 text-xs pr-1"><i class="fa-solid fa-chevron-down"></i></div>
                         </div>
-                        <div class="flex space-x-1.5" onclick="event.stopPropagation()">
-                            <button type="button" onclick="setFechaRelativa(0)" id="btnHoy" class="text-[11px] font-extrabold px-2.5 py-1 rounded-xl bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100 transition">Hoy</button>
-                            <button type="button" onclick="setFechaRelativa(1)" id="btnManana" class="text-[11px] font-extrabold px-2.5 py-1 rounded-xl bg-slate-200 text-slate-700 hover:bg-slate-300 transition">Mañana</button>
-                        </div>
-                    </div>
-
-                    <!-- Calendario Flotante -->
-                    <div id="dropdownFecha" class="hidden absolute left-0 right-0 top-full mt-1 bg-white border border-slate-200 rounded-2xl shadow-2xl z-50 p-4 space-y-3">
-                        <div class="flex justify-between items-center">
-                            <span id="mesAnioLabel" class="text-xs font-extrabold uppercase tracking-wider text-slate-800"></span>
-                            <div class="space-x-1">
-                                <button type="button" onclick="cambiarMes(-1)" class="w-7 h-7 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold transition"><i class="fa-solid fa-chevron-left text-xs"></i></button>
-                                <button type="button" onclick="cambiarMes(1)" class="w-7 h-7 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold transition"><i class="fa-solid fa-chevron-right text-xs"></i></button>
+                        <div id="dropdownOrigen" class="hidden absolute left-0 right-0 top-full mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl z-50 p-2 space-y-1">
+                            <div class="text-[10px] font-bold uppercase text-slate-400 px-3 py-1">Puntos principales</div>
+                            <div onclick="seleccionarOrigen('Lima (Óvalo Infantas)')" class="px-3 py-2.5 rounded-xl hover:bg-emerald-50 cursor-pointer text-sm font-bold text-slate-800 flex items-center space-x-2">
+                                <i class="fa-solid fa-location-dot text-emerald-600 text-xs"></i>
+                                <span>Lima (Óvalo Infantas)</span>
+                            </div>
+                            <div onclick="seleccionarOrigen('Churín')" class="px-3 py-2.5 rounded-xl hover:bg-emerald-50 cursor-pointer text-sm font-bold text-slate-800 flex items-center space-x-2">
+                                <i class="fa-solid fa-location-dot text-emerald-600 text-xs"></i>
+                                <span>Churín</span>
                             </div>
                         </div>
-                        <div class="grid grid-cols-7 text-center text-[10px] font-extrabold uppercase text-slate-400">
-                            <span>Do</span><span>Lu</span><span>Ma</span><span>Mi</span><span>Ju</span><span>Vi</span><span>Sá</span>
+                    </div>
+
+                    <!-- DESTINO -->
+                    <div class="relative">
+                        <div onclick="toggleDropdown('dropdownDestino')" class="bg-slate-50 hover:bg-teal-50/50 transition border border-slate-200/80 rounded-2xl p-3 flex items-center space-x-3 cursor-pointer">
+                            <div class="text-emerald-600 text-lg pl-1"><i class="fa-solid fa-location-dot"></i></div>
+                            <div class="flex-1">
+                                <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Destino</span>
+                                <span id="txtDestino" class="block text-sm font-extrabold text-slate-900 truncate">Churín</span>
+                            </div>
+                            <div class="text-slate-400 text-xs pr-1"><i class="fa-solid fa-chevron-down"></i></div>
                         </div>
-                        <div id="calendarioDias" class="grid grid-cols-7 gap-1 text-center text-xs font-bold text-slate-700"></div>
+                        <div id="dropdownDestino" class="hidden absolute left-0 right-0 top-full mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl z-50 p-2 space-y-1">
+                            <div class="text-[10px] font-bold uppercase text-slate-400 px-3 py-1">Rutas disponibles</div>
+                            <div onclick="seleccionarDestino('Churín')" class="px-3 py-2.5 rounded-xl hover:bg-emerald-50 cursor-pointer text-sm font-bold text-slate-800 flex items-center space-x-2">
+                                <i class="fa-solid fa-location-dot text-emerald-600 text-xs"></i>
+                                <span>Churín</span>
+                            </div>
+                            <div onclick="seleccionarDestino('Lima (Óvalo Infantas)')" class="px-3 py-2.5 rounded-xl hover:bg-emerald-50 cursor-pointer text-sm font-bold text-slate-800 flex items-center space-x-2">
+                                <i class="fa-solid fa-location-dot text-emerald-600 text-xs"></i>
+                                <span>Lima (Óvalo Infantas)</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- CANTIDAD DE ASIENTOS -->
-                <div class="bg-slate-50 hover:bg-slate-100/80 transition border border-slate-200/80 rounded-2xl p-3 flex items-center space-x-3">
-                    <div class="text-slate-400 text-lg pl-1">
-                        <i class="fa-solid fa-user-group"></i>
+                <!-- Alerta de restricción -->
+                <div id="alertaError" class="hidden bg-slate-800 border-l-4 border-emerald-500 text-white text-xs font-bold px-3 py-2 rounded-xl flex items-center space-x-2 shadow-sm">
+                    <i class="fa-solid fa-triangle-exclamation text-emerald-400"></i>
+                    <span>La ciudad de origen y destino no pueden ser la misma.</span>
+                </div>
+
+                <!-- Fila Fecha de Viaje y Asientos -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-2 relative">
+                    <!-- FECHA DE VIAJE -->
+                    <div class="relative">
+                        <div onclick="toggleDropdown('dropdownFecha')" class="bg-slate-50 hover:bg-teal-50/50 transition border border-slate-200/80 rounded-2xl p-3 flex items-center space-x-3 cursor-pointer">
+                            <div class="text-teal-600 text-lg pl-1"><i class="fa-regular fa-calendar"></i></div>
+                            <div class="flex-1">
+                                <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Fecha de viaje</span>
+                                <span id="txtFecha" class="block text-sm font-extrabold text-slate-950 truncate">Seleccionar fecha</span>
+                            </div>
+                            <div class="flex space-x-1.5" onclick="event.stopPropagation()">
+                                <button type="button" onclick="setFechaRelativa(0)" id="btnHoy" class="text-[11px] font-extrabold px-2.5 py-1 rounded-xl bg-emerald-600 text-white border border-emerald-600 hover:bg-emerald-500 transition">Hoy</button>
+                                <button type="button" onclick="setFechaRelativa(1)" id="btnManana" class="text-[11px] font-extrabold px-2.5 py-1 rounded-xl bg-slate-100 text-slate-700 hover:bg-teal-50 hover:text-teal-800 transition">Mañana</button>
+                            </div>
+                        </div>
+
+                        <!-- Calendario Flotante -->
+                        <div id="dropdownFecha" class="hidden absolute left-0 right-0 top-full mt-1 bg-white border border-slate-200 rounded-2xl shadow-2xl z-50 p-4 space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span id="mesAnioLabel" class="text-xs font-extrabold uppercase tracking-wider text-slate-800"></span>
+                                <div class="space-x-1">
+                                    <button type="button" onclick="cambiarMes(-1)" class="w-7 h-7 rounded-lg bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700 text-slate-700 font-bold transition"><i class="fa-solid fa-chevron-left text-xs"></i></button>
+                                    <button type="button" onclick="cambiarMes(1)" class="w-7 h-7 rounded-lg bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700 text-slate-700 font-bold transition"><i class="fa-solid fa-chevron-right text-xs"></i></button>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-7 text-center text-[10px] font-extrabold uppercase text-slate-400">
+                                <span>Do</span><span>Lu</span><span>Ma</span><span>Mi</span><span>Ju</span><span>Vi</span><span>Sá</span>
+                            </div>
+                            <div id="calendarioDias" class="grid grid-cols-7 gap-1 text-center text-xs font-bold text-slate-700"></div>
+                        </div>
                     </div>
-                    <div class="flex-1">
-                        <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Cantidad de Asientos (Máx. 18)</span>
-                        <input type="number" id="asientos" min="1" max="18" value="1" onchange="onCambioCantidadPasajeros()" class="w-full bg-transparent text-sm font-extrabold text-slate-900 focus:outline-none">
+
+                    <!-- CANTIDAD DE ASIENTOS -->
+                    <div class="bg-slate-50 hover:bg-teal-50/50 transition border border-slate-200/80 rounded-2xl p-3 flex items-center space-x-3">
+                        <div class="text-teal-600 text-lg pl-1">
+                            <i class="fa-solid fa-user-group"></i>
+                        </div>
+                        <div class="flex-1">
+                            <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Cantidad de Asientos (Máx. 18)</span>
+                            <input type="number" id="asientos" min="1" max="18" value="1" onchange="onCambioCantidadPasajeros()" class="w-full bg-transparent text-sm font-extrabold text-slate-900 focus:outline-none">
+                        </div>
                     </div>
                 </div>
 
+                <!-- Botón Buscar -->
+                <button id="btnBuscarSalidas" type="button" onclick="buscarHorariosDisponibles()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-3.5 px-4 rounded-2xl shadow-md transition flex items-center justify-center space-x-2 text-sm sm:text-base tracking-wide mt-2">
+                    <i class="fa-solid fa-magnifying-glass text-white text-sm"></i>
+                    <span>Buscar Salidas</span>
+                </button>
             </div>
-
-            <!-- Botón Buscar Salidas (Añadido id="btnBuscarSalidas") -->
-            <button id="btnBuscarSalidas" type="button" onclick="buscarHorariosDisponibles()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-extrabold py-3.5 px-4 rounded-2xl shadow-md transition flex items-center justify-center space-x-2 text-sm sm:text-base tracking-wide">
-                <i class="fa-solid fa-magnifying-glass text-emerald-400 text-sm"></i>
-                <span>Buscar Salidas</span>
-            </button>
         </div>
+
+        <!-- SECCIÓN DE FULL DAYS (Oculta por defecto) -->
+        <section id="seccionFullDays" class="hidden max-w-5xl mx-auto w-full text-left space-y-4 pt-6">
+            <div class="text-center space-y-1">
+                <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-600 block">Contrato Ida y Vuelta • Vehículo Completo</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Nuestros Full Days</h2>
+                <p class="text-xs sm:text-sm text-slate-500 font-medium">Modalidad de contrato ida y vuelta con vehículo completo. Haz clic en el tour de tu interés para consultar y reservar.</p>
+            </div>
+            
+            <!-- Contenedor Grid para las tarjetas -->
+            <div id="contenedorTours" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Las tarjetas se generan por JS -->
+            </div>
+        </section>
 
         <!-- SECCIÓN DE HORARIOS -->
         <section id="seccionHorarios" class="hidden max-w-2xl mx-auto w-full text-left space-y-3">
             <div class="flex items-center justify-between px-1">
                 <div>
-                    <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-600 block">Salidas programadas • Lima ➔ Churín</span>
+                    <span id="etiquetaRutaHorarios" class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-600 block">Salidas programadas • Lima (Óvalo Infantas) ➔ Churín</span>
                     <h2 class="text-base sm:text-lg font-extrabold text-slate-900">Elige tu horario de salida</h2>
                 </div>
-                <span class="text-xs font-bold text-slate-500">5 turnos diarios</span>
+                <span id="resumenCantidadHorarios" class="text-xs font-bold text-teal-700">5 turnos diarios</span>
             </div>
 
             <div id="listaTarjetasHorarios" class="space-y-2.5"></div>
@@ -276,40 +303,40 @@
                         <span class="text-xs font-bold text-slate-700">Libre</span>
                     </div>
                     <div class="flex items-center space-x-1.5">
-                        <span class="legend-seat bg-red-400 border-2 border-red-500"></span>
+                        <span class="legend-seat bg-slate-800 border-2 border-slate-900"></span>
                         <span class="text-xs font-bold text-slate-700">Ocupado</span>
                     </div>
                     <div class="flex items-center space-x-1.5">
-                        <span class="legend-seat bg-slate-500 border-2 border-slate-700"></span>
+                        <span class="legend-seat bg-emerald-600 border-2 border-emerald-700"></span>
                         <span class="text-xs font-bold text-slate-700">Elegido</span>
                     </div>
                 </div>
             </div>
 
-            <div id="alertaAsientos" class="hidden bg-amber-50 border border-amber-300 text-amber-800 text-xs font-bold px-3.5 py-2.5 rounded-xl flex items-center space-x-2">
-                <i class="fa-solid fa-circle-info text-amber-600"></i>
+            <div id="alertaAsientos" class="hidden bg-teal-50 border border-teal-300 text-teal-900 text-xs font-bold px-3.5 py-2.5 rounded-xl flex items-center space-x-2">
+                <i class="fa-solid fa-circle-info text-emerald-600"></i>
                 <span id="textoAlertaAsientos"></span>
             </div>
 
             <!-- CROQUIS DEL VEHÍCULO -->
             <div class="flex justify-center py-2">
                 <div class="relative w-[276px] sm:w-[296px] select-none">
-                    <div class="absolute -left-3 top-12 w-3.5 h-8 bg-amber-500 rounded-l-lg border border-amber-600 shadow-sm"></div>
-                    <div class="absolute -right-3 top-12 w-3.5 h-8 bg-amber-500 rounded-r-lg border border-amber-600 shadow-sm"></div>
+                    <div class="absolute -left-3 top-12 w-3.5 h-8 bg-teal-600 rounded-l-lg border border-teal-700 shadow-sm"></div>
+                    <div class="absolute -right-3 top-12 w-3.5 h-8 bg-teal-600 rounded-r-lg border border-teal-700 shadow-sm"></div>
                     <div class="absolute -left-2 top-24 w-2 h-14 bg-slate-700 rounded-l-md"></div>
                     <div class="absolute -right-2 top-24 w-2 h-14 bg-slate-700 rounded-r-md"></div>
                     <div class="absolute -left-2 bottom-16 w-2 h-14 bg-slate-700 rounded-l-md"></div>
                     <div class="absolute -right-2 bottom-16 w-2 h-14 bg-slate-700 rounded-r-md"></div>
 
-                    <div class="bg-amber-400 p-2.5 rounded-t-[54px] rounded-b-[28px] shadow-md border-2 border-amber-500">
-                        <div class="h-9 bg-slate-100/90 rounded-t-[44px] rounded-b-xl mb-2 border border-amber-500/40 flex items-center justify-center">
-                            <span class="text-[9px] font-extrabold uppercase tracking-widest text-slate-400">Frente • Hyundai H350</span>
+                    <div class="bg-teal-700 p-2.5 rounded-t-[54px] rounded-b-[28px] shadow-md border-2 border-teal-800">
+                        <div class="h-9 bg-slate-100/95 rounded-t-[44px] rounded-b-xl mb-2 border border-teal-800/30 flex items-center justify-center">
+                            <span class="text-[9px] font-extrabold uppercase tracking-widest text-teal-900">Frente • Hyundai H350</span>
                         </div>
 
                         <div class="bg-white rounded-t-2xl rounded-b-[20px] p-3.5 space-y-3 border border-slate-200">
                             <div class="grid grid-cols-4 gap-2 items-center pb-2.5 border-b border-dashed border-slate-200">
-                                <div class="flex flex-col items-center justify-center text-slate-500" title="Conductor">
-                                    <div class="w-10 h-10 rounded-full border-2 border-slate-500 flex items-center justify-center">
+                                <div class="flex flex-col items-center justify-center text-teal-800" title="Conductor">
+                                    <div class="w-10 h-10 rounded-full border-2 border-teal-700 flex items-center justify-center">
                                         <i class="fa-solid fa-dharmachakra text-lg"></i>
                                     </div>
                                     <span class="text-[9px] font-bold uppercase mt-0.5">Piloto</span>
@@ -329,7 +356,7 @@
                         </div>
 
                         <div class="mt-2 h-5 bg-slate-900 rounded-b-[20px] rounded-t-md flex items-center justify-center">
-                            <div class="w-24 h-2 bg-slate-600 rounded-full"></div>
+                            <div class="w-24 h-2 bg-emerald-500/80 rounded-full"></div>
                         </div>
                     </div>
                 </div>
@@ -341,7 +368,7 @@
                     <span id="resumenAsientosTexto" class="text-sm font-extrabold text-slate-900">Ninguno aún</span>
                 </div>
 
-                <button id="btnSiguienteAsientos" type="button" onclick="mostrarResumenReserva()" class="bg-rose-600 hover:bg-rose-500 text-white font-extrabold py-3 px-6 rounded-2xl shadow-md transition flex items-center justify-center space-x-2 text-sm tracking-wide">
+                <button id="btnSiguienteAsientos" type="button" onclick="mostrarResumenReserva()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-3 px-6 rounded-2xl shadow-md transition flex items-center justify-center space-x-2 text-sm tracking-wide">
                     <span>Siguiente</span>
                     <i class="fa-solid fa-arrow-right text-xs"></i>
                 </button>
@@ -383,39 +410,39 @@
             <div class="bg-slate-50/90 border border-slate-200 rounded-2xl p-4 space-y-3">
                 <div class="flex items-center justify-between">
                     <span class="text-xs font-extrabold uppercase tracking-wider text-slate-800">
-                        Datos de la persona como contacto <span class="text-rose-600">*</span>
+                        Datos de la persona como contacto <span class="text-emerald-600">*</span>
                     </span>
                     <span class="text-[10px] font-bold text-slate-400">Campos obligatorios</span>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                     <div>
-                        <label for="contactoDni" class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">DNI <span class="text-rose-600">*</span></label>
+                        <label for="contactoDni" class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">DNI <span class="text-emerald-600">*</span></label>
                         <input type="text" id="contactoDni" maxlength="8" inputmode="numeric" placeholder="Ej. 12345678" oninput="this.value = this.value.replace(/[^0-9]/g, ''); ocultarErrorContacto();" class="w-full bg-white border border-slate-300 focus:border-emerald-600 rounded-xl px-3 py-2 text-xs sm:text-sm font-bold text-slate-900 focus:outline-none">
                     </div>
 
                     <div>
-                        <label for="contactoEdad" class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">Edad <span class="text-rose-600">*</span></label>
+                        <label for="contactoEdad" class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">Edad <span class="text-emerald-600">*</span></label>
                         <input type="number" id="contactoEdad" min="1" max="120" placeholder="Ej. 28" oninput="ocultarErrorContacto();" class="w-full bg-white border border-slate-300 focus:border-emerald-600 rounded-xl px-3 py-2 text-xs sm:text-sm font-bold text-slate-900 focus:outline-none">
                     </div>
 
                     <div class="sm:col-span-1">
-                        <label for="contactoNombre" class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">Nombre completo <span class="text-rose-600">*</span></label>
+                        <label for="contactoNombre" class="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">Nombre completo <span class="text-emerald-600">*</span></label>
                         <input type="text" id="contactoNombre" placeholder="Ej. Juan Pérez" oninput="ocultarErrorContacto();" class="w-full bg-white border border-slate-300 focus:border-emerald-600 rounded-xl px-3 py-2 text-xs sm:text-sm font-bold text-slate-900 focus:outline-none">
                     </div>
                 </div>
 
-                <div id="alertaContacto" class="hidden bg-rose-50 border border-rose-200 text-rose-700 text-xs font-bold px-3 py-2 rounded-xl flex items-center space-x-2">
-                    <i class="fa-solid fa-circle-exclamation"></i>
+                <div id="alertaContacto" class="hidden bg-teal-50 border border-teal-300 text-teal-900 text-xs font-bold px-3 py-2 rounded-xl flex items-center space-x-2">
+                    <i class="fa-solid fa-circle-exclamation text-emerald-600"></i>
                     <span id="textoAlertaContacto"></span>
                 </div>
             </div>
 
-            <div class="bg-amber-50 border-l-4 border-amber-500 border border-amber-200/80 rounded-2xl p-3.5 flex items-center space-x-3">
-                <div class="w-8 h-8 rounded-xl bg-amber-500 text-white flex items-center justify-center flex-shrink-0 text-xs shadow-sm">
+            <div class="bg-teal-50 border-l-4 border-emerald-600 border border-teal-200/80 rounded-2xl p-3.5 flex items-center space-x-3">
+                <div class="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center flex-shrink-0 text-xs shadow-sm">
                     <i class="fa-solid fa-bullhorn"></i>
                 </div>
-                <p class="text-xs sm:text-sm font-extrabold text-amber-950">
+                <p class="text-xs sm:text-sm font-extrabold text-teal-950">
                     Por el momento toda reserva será confirmada vía whatsapp
                 </p>
             </div>
@@ -445,18 +472,20 @@
             </div>
         </div>
 
-        <!-- SECCIÓN: NUESTRAS UNIDADES -->
+        <!-- SECCIÓN: NUESTRAS UNIDADES (CON BOTONES ANTERIOR / SIGUIENTE) -->
         <div class="max-w-2xl mx-auto w-full bg-white p-4 sm:p-5 rounded-3xl border border-slate-200 shadow-sm space-y-3 text-left relative">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-2 text-slate-800 font-bold text-sm sm:text-base">
-                    <i class="fa-solid fa-bus text-emerald-600"></i>
-                    <span id="tituloUnidad">Nuestra Flota: Hyundai H350</span>
+            <div class="flex items-center justify-between gap-2">
+                <div class="flex items-center space-x-2 text-slate-800 font-bold text-sm sm:text-base min-w-0">
+                    <i class="fa-solid fa-bus text-emerald-600 flex-shrink-0"></i>
+                    <span id="tituloUnidad" class="truncate">Nuestra Flota: Hyundai H350</span>
                 </div>
-                <div class="flex space-x-1.5">
-                    <button onclick="moverCarrusel(-1)" class="w-8 h-8 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition shadow-sm">
+                <div class="flex space-x-1.5 flex-shrink-0">
+                    <button type="button" onclick="moverCarrusel(-1)" aria-label="Unidad anterior" class="bg-slate-100 hover:bg-emerald-600 hover:text-white text-slate-700 font-extrabold text-xs px-2.5 h-8 rounded-xl flex items-center justify-center space-x-1 transition shadow-sm border border-slate-200">
                         <i class="fa-solid fa-chevron-left text-xs"></i>
+                        <span class="hidden sm:inline">Anterior</span>
                     </button>
-                    <button onclick="moverCarrusel(1)" class="w-8 h-8 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition shadow-sm">
+                    <button type="button" onclick="moverCarrusel(1)" aria-label="Siguiente unidad" class="bg-slate-100 hover:bg-emerald-600 hover:text-white text-slate-700 font-extrabold text-xs px-2.5 h-8 rounded-xl flex items-center justify-center space-x-1 transition shadow-sm border border-slate-200">
+                        <span class="hidden sm:inline">Siguiente</span>
                         <i class="fa-solid fa-chevron-right text-xs"></i>
                     </button>
                 </div>
@@ -471,7 +500,7 @@
                             <i class="fa-solid fa-image text-3xl mb-1"></i>
                             <span class="text-xs font-medium">Hyundai H350 (18 Pasajeros • Servicio Turístico)</span>
                         </div>
-                        <div class="absolute bottom-3 left-3 bg-slate-900/80 backdrop-blur-md text-white text-[11px] font-bold px-3 py-1 rounded-xl">
+                        <div class="absolute bottom-3 left-3 bg-slate-900/85 backdrop-blur-md text-white text-[11px] font-bold px-3 py-1 rounded-xl border border-emerald-500/30">
                             Hyundai H350 • 18 Pasajeros
                         </div>
                     </div>
@@ -483,7 +512,7 @@
                             <i class="fa-solid fa-image text-3xl mb-1"></i>
                             <span class="text-xs font-medium">SUV DFSK Glory 580 (7 Asientos)</span>
                         </div>
-                        <div class="absolute bottom-3 left-3 bg-slate-900/80 backdrop-blur-md text-white text-[11px] font-bold px-3 py-1 rounded-xl">
+                        <div class="absolute bottom-3 left-3 bg-slate-900/85 backdrop-blur-md text-white text-[11px] font-bold px-3 py-1 rounded-xl border border-emerald-500/30">
                             DFSK Glory 580 • SUV Exclusiva
                         </div>
                     </div>
@@ -497,7 +526,7 @@
         <div class="max-w-2xl mx-auto w-full text-left">
             <div class="bg-white p-4 sm:p-5 rounded-3xl border border-slate-200 shadow-sm space-y-3">
                 <div class="flex items-center space-x-2 text-slate-800 font-bold text-sm sm:text-base">
-                    <i class="fa-solid fa-location-dot text-red-500"></i>
+                    <i class="fa-solid fa-location-dot text-emerald-600"></i>
                     <span>Punto de Embarque: Óvalo Infantas (Los Olivos)</span>
                 </div>
                 
@@ -514,12 +543,12 @@
                 </div>
 
                 <div class="flex flex-col sm:flex-row justify-center items-center gap-2.5 pt-1">
-                    <a href="https://www.google.com/maps/search/?api=1&query=-11.944077,-77.070646" target="_blank" class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold px-4 py-2.5 rounded-xl transition border border-slate-200">
-                        <i class="fa-solid fa-map-location-dot text-blue-600"></i>
+                    <a href="https://www.google.com/maps/search/?api=1&query=-11.944077,-77.070646" target="_blank" class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition shadow-sm">
+                        <i class="fa-solid fa-map-location-dot text-emerald-400"></i>
                         <span>Abrir en Google Maps</span>
                     </a>
-                    <a href="https://waze.com/ul?ll=-11.944077,-77.070646&navigate=yes" target="_blank" class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 bg-sky-50 hover:bg-sky-100 text-sky-700 text-xs font-bold px-4 py-2.5 rounded-xl transition border border-sky-200">
-                        <i class="fa-brands fa-waze text-sky-500 text-sm"></i>
+                    <a href="https://waze.com/ul?ll=-11.944077,-77.070646&navigate=yes" target="_blank" class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 bg-teal-50 hover:bg-teal-100 text-teal-800 text-xs font-bold px-4 py-2.5 rounded-xl transition border border-teal-200">
+                        <i class="fa-brands fa-waze text-teal-600 text-sm"></i>
                         <span>Abrir en Waze</span>
                     </a>
                 </div>
@@ -532,10 +561,10 @@
         <div class="pt-2 border-t border-slate-200 max-w-md mx-auto">
             <p class="text-slate-500 text-xs font-bold uppercase tracking-wider mb-3">Síguenos en nuestras redes oficiales</p>
             <div class="flex justify-center items-center space-x-4">
-                <a href="https://www.facebook.com/profile.php?id=100089414253832&sk=about" target="_blank" class="w-12 h-12 rounded-2xl bg-white border border-slate-200 text-slate-700 hover:text-blue-600 hover:border-blue-600 flex items-center justify-center text-xl shadow-sm transition transform hover:-translate-y-1" title="Facebook">
+                <a href="https://www.facebook.com/profile.php?id=100089414253832&sk=about" target="_blank" class="w-12 h-12 rounded-2xl bg-white border border-slate-200 text-slate-700 hover:text-emerald-600 hover:border-emerald-600 flex items-center justify-center text-xl shadow-sm transition transform hover:-translate-y-1" title="Facebook">
                     <i class="fa-brands fa-facebook-f"></i>
                 </a>
-                <a href="https://www.instagram.com/manantial.tours/" target="_blank" class="w-12 h-12 rounded-2xl bg-white border border-slate-200 text-slate-700 hover:text-pink-600 hover:border-pink-600 flex items-center justify-center text-xl shadow-sm transition transform hover:-translate-y-1" title="Instagram">
+                <a href="https://www.instagram.com/manantial.tours/" target="_blank" class="w-12 h-12 rounded-2xl bg-white border border-slate-200 text-slate-700 hover:text-emerald-600 hover:border-emerald-600 flex items-center justify-center text-xl shadow-sm transition transform hover:-translate-y-1" title="Instagram">
                     <i class="fa-brands fa-instagram"></i>
                 </a>
                 <a href="https://www.tiktok.com/@manantialtours0" target="_blank" class="w-12 h-12 rounded-2xl bg-white border border-slate-200 text-slate-700 hover:text-slate-950 hover:border-slate-950 flex items-center justify-center text-xl shadow-sm transition transform hover:-translate-y-1" title="TikTok">
@@ -550,6 +579,57 @@
     <footer class="border-t border-slate-200 bg-white py-6 px-4 text-center text-slate-500 text-xs mt-6">
         <p>© 2026 Transporte Turístico Manantial S.A.C. • Todos los derechos reservados.</p>
     </footer>
+
+    <!-- MODAL DE FULL DAY -->
+    <div id="modalTour" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm transition-opacity">
+        <div class="bg-white w-full max-w-2xl max-h-[90vh] rounded-3xl overflow-hidden shadow-2xl flex flex-col relative animate-[fadeIn_0.2s_ease-out]">
+            
+            <button type="button" onclick="cerrarModalTour()" class="absolute top-3 right-3 z-10 w-8 h-8 bg-slate-900/65 hover:bg-slate-900 text-white rounded-full flex items-center justify-center transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="w-full h-48 sm:h-64 relative flex-shrink-0">
+                <img id="modalImg" src="" alt="Tour" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/85 to-transparent"></div>
+                <div class="absolute bottom-3 left-4 right-4">
+                    <h3 id="modalTitulo" class="text-white text-2xl font-extrabold drop-shadow-md"></h3>
+                    <div class="flex flex-wrap items-center gap-2 mt-1.5">
+                        <span id="modalPrecio" class="inline-block bg-emerald-600 text-white text-xs sm:text-sm font-extrabold px-3 py-1 rounded-lg shadow-sm"></span>
+                        <span class="inline-block bg-slate-900/80 text-emerald-200 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-emerald-500/30">
+                            Ida y vuelta • Vehículo completo
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-5 overflow-y-auto space-y-5">
+                <p id="modalDesc" class="text-sm text-slate-600 font-medium"></p>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="bg-emerald-50 rounded-2xl p-3 border border-emerald-100">
+                        <h4 class="text-xs font-extrabold text-emerald-800 uppercase mb-2"><i class="fa-solid fa-check-circle mr-1"></i> Incluye</h4>
+                        <ul id="modalIncluye" class="text-xs text-slate-700 space-y-1 font-medium list-disc list-inside"></ul>
+                    </div>
+                    <div class="bg-slate-100 rounded-2xl p-3 border border-slate-200">
+                        <h4 class="text-xs font-extrabold text-slate-800 uppercase mb-2"><i class="fa-solid fa-circle-info mr-1 text-teal-700"></i> No Incluye</h4>
+                        <ul id="modalNoIncluye" class="text-xs text-slate-700 space-y-1 font-medium list-disc list-inside"></ul>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-extrabold text-slate-900 mb-2">Itinerario</h4>
+                    <ul id="modalItinerario" class="text-xs text-slate-600 space-y-2 font-medium border-l-2 border-emerald-500/40 pl-3 ml-1"></ul>
+                </div>
+            </div>
+
+            <div class="p-4 bg-slate-50 border-t border-slate-200 flex-shrink-0">
+                <button type="button" onclick="reservarTourWhatsApp()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-3.5 px-4 rounded-2xl shadow-md transition flex items-center justify-center space-x-2 text-sm sm:text-base">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                    <span>Reservar este Tour por WhatsApp</span>
+                </button>
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>

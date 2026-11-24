@@ -1,80 +1,79 @@
-<style>
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
 
-        /* Estilo de butaca tipo RedBus */
-        .seat-btn {
-            position: relative;
-            width: 44px;
-            height: 46px;
-            border-radius: 10px 10px 6px 6px;
-            border: 2px solid #334155;
-            background-color: #ffffff;
-            color: #0f172a;
-            font-weight: 800;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.15s ease;
-            box-shadow: 0 2px 0 #cbd5e1;
-        }
+/* Estilo de butaca tipo RedBus armonizado con la identidad Manantial */
+.seat-btn {
+    position: relative;
+    width: 44px;
+    height: 46px;
+    border-radius: 10px 10px 6px 6px;
+    border: 2px solid #0f766e;
+    background-color: #ffffff;
+    color: #0f172a;
+    font-weight: 800;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+    box-shadow: 0 2px 0 #cbd5e1;
+}
 
-        /* Apoyabrazos laterales */
-        .seat-btn::before,
-        .seat-btn::after {
-            content: '';
-            position: absolute;
-            bottom: 4px;
-            width: 4px;
-            height: 22px;
-            border-radius: 3px;
-            background-color: currentColor;
-            opacity: 0.25;
-        }
-        .seat-btn::before { left: 2px; }
-        .seat-btn::after { right: 2px; }
+/* Apoyabrazos laterales */
+.seat-btn::before,
+.seat-btn::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    width: 4px;
+    height: 22px;
+    border-radius: 3px;
+    background-color: currentColor;
+    opacity: 0.25;
+}
+.seat-btn::before { left: 2px; }
+.seat-btn::after { right: 2px; }
 
-        .seat-free:hover {
-            border-color: #059669;
-            background-color: #ecfdf5;
-            transform: translateY(-2px);
-        }
+.seat-free:hover {
+    border-color: #059669;
+    background-color: #ecfdf5;
+    transform: translateY(-2px);
+}
 
-        .seat-occupied {
-            background-color: #f87171;
-            border-color: #ef4444;
-            color: #ffffff;
-            box-shadow: 0 2px 0 #dc2626;
-            cursor: not-allowed;
-            opacity: 0.9;
-        }
+.seat-occupied {
+    background-color: #1e293b;
+    border-color: #0f172a;
+    color: #cbd5e1;
+    box-shadow: 0 2px 0 #0f172a;
+    cursor: not-allowed;
+    opacity: 0.92;
+}
 
-        .seat-selected {
-            background-color: #64748b;
-            border-color: #334155;
-            color: #ffffff;
-            box-shadow: 0 2px 0 #1e293b;
-            transform: translateY(-2px);
-        }
+.seat-selected {
+    background-color: #059669;
+    border-color: #047857;
+    color: #ffffff;
+    box-shadow: 0 2px 0 #065f46;
+    transform: translateY(-2px);
+}
 
-        /* Ícono de leyenda */
-        .legend-seat {
-            width: 24px;
-            height: 24px;
-            border-radius: 6px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-        /* Ocultar la barra de scroll pero mantener la funcionalidad táctil */
+/* Ícono de leyenda */
+.legend-seat {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* Ocultar la barra de scroll pero mantener la funcionalidad táctil */
 .no-scrollbar::-webkit-scrollbar {
     display: none;
 }
 .no-scrollbar {
-    -ms-overflow-style: none;  /* IE y Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
-    </style>

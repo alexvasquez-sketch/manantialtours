@@ -1,0 +1,90 @@
+[
+  {
+    "id": "velos-de-novia",
+    "titulo": "Full Day Velos de Novia",
+    "precio": "S/ 80.00",
+    "imagen": "assets/img/fullday1_imagen1.jpg",
+    "imagen2": "assets/img/fullday1_imagen2.jpg",
+    "descripcion": "Disfruta de una impresionante caída de agua rodeada de naturaleza y aire puro.",
+    "incluye": ["Transporte turístico", "Guía oficial", "Seguro SOAT", "Botiquín"],
+    "no_incluye": ["Almuerzo", "Entradas", "Gastos personales"],
+    "itinerario": ["05:00 AM - Salida de Óvalo Infantas", "08:30 AM - Llegada y caminata", "01:00 PM - Almuerzo libre", "05:00 PM - Retorno a Lima"]
+  },
+  {
+    "id": "huancahuasi",
+    "titulo": "Full Day Baños de Huancahuasi",
+    "precio": "S/ 75.00",
+    "imagen": "assets/img/fullday2_imagen1.jpg",
+    "imagen2": "assets/img/fullday2_imagen2.jpg",
+    "descripcion": "Relájate en las aguas termales medicinales en medio de las montañas.",
+    "incluye": ["Transporte turístico", "Guía oficial", "Seguro SOAT"],
+    "no_incluye": ["Almuerzo", "Entrada a baños (S/ 15.00)"],
+    "itinerario": ["06:00 AM - Salida de Lima", "10:00 AM - Llegada a Huancahuasi", "02:00 PM - Almuerzo", "06:00 PM - Retorno"]
+  },
+  {
+    "id": "nevado-raura",
+    "titulo": "Full Day Nevado de Raura",
+    "precio": "S/ 95.00",
+    "imagen": "assets/img/fullday3_imagen1.jpg",
+    "imagen2": "assets/img/fullday3_imagen2.jpg",
+    "descripcion": "Aventura extrema en la nieve a más de 4000 msnm. Ideal para los amantes del frío.",
+    "incluye": ["Transporte 4x4", "Guía de montaña", "Seguro SOAT", "Desayuno"],
+    "no_incluye": ["Almuerzo", "Alquiler de ropa de nieve"],
+    "itinerario": ["04:00 AM - Salida", "09:00 AM - Llegada al nevado", "02:00 PM - Descenso", "07:00 PM - Lima"]
+  },
+  {
+    "id": "churin-tour",
+    "titulo": "Full Day Churín",
+    "precio": "S/ 85.00",
+    "imagen": "assets/img/fullday4_imagen1.jpg",
+    "imagen2": "assets/img/fullday4_imagen2.jpg",
+    "descripcion": "Conoce Mamahuarmi, Tingo y disfruta del mejor clima y gastronomía de la sierra limeña.",
+    "incluye": ["Transporte turístico", "Guía oficial", "City Tour"],
+    "no_incluye": ["Almuerzo", "Entradas a termales"],
+    "itinerario": ["06:00 AM - Salida", "10:00 AM - Sayán", "12:00 PM - Mamahuarmi", "04:00 PM - Tingo"]
+  },
+  {
+    "id": "huacachina",
+    "titulo": "Full Day Laguna de Huacachina",
+    "precio": "S/ 110.00",
+    "imagen": "assets/img/fullday5_imagen1.jpg",
+    "imagen2": "assets/img/fullday5_imagen2.jpg",
+    "descripcion": "El oasis de América. Paseo en tubulares y sandboarding en las dunas de Ica.",
+    "incluye": ["Transporte", "Guía", "Paseo en Tubular", "Tabla de sandboard"],
+    "no_incluye": ["Almuerzo", "Bodega vitivinícola"],
+    "itinerario": ["06:00 AM - Salida", "12:00 PM - Llegada a Ica", "03:00 PM - Tubulares", "09:00 PM - Lima"]
+  },
+  {
+    "id": "paracas",
+    "titulo": "Full Day Paracas - Islas Ballestas",
+    "precio": "S/ 115.00",
+    "imagen": "assets/img/fullday6_imagen1.jpg",
+    "imagen2": "assets/img/fullday6_imagen2.jpg",
+    "descripcion": "Navega hacia las Islas Ballestas y maravíllate con la fauna marina y el Candelabro.",
+    "incluye": ["Transporte", "Guía", "Paseo en deslizador"],
+    "no_incluye": ["Almuerzo", "Tasa de embarque (S/ 10)"],
+    "itinerario": ["04:00 AM - Salida", "08:00 AM - Bote a Ballestas", "01:00 PM - Reserva Nacional", "07:00 PM - Lima"]
+  },
+  {
+    "id": "machu-picchu-limeno",
+    "titulo": "Full Day Machu Picchu Limeño",
+    "precio": "S/ 70.00",
+    "imagen": "assets/img/fullday7_imagen1.jpg",
+    "imagen2": "assets/img/fullday7_imagen2.jpg",
+    "descripcion": "Un viaje al pasado visitando el complejo arqueológico de Pachacámac y sus alrededores.",
+    "incluye": ["Transporte", "Guía oficial", "Ticket de entrada"],
+    "no_incluye": ["Almuerzo"],
+    "itinerario": ["08:00 AM - Salida", "10:00 AM - Tour Pachacámac", "02:00 PM - Almuerzo", "05:00 PM - Retorno"]
+  },
+  {
+    "id": "lunahuana",
+    "titulo": "Full Day Lunahuaná",
+    "precio": "S/ 95.00",
+    "imagen": "assets/img/fullday8_imagen1.jpg",
+    "imagen2": "assets/img/fullday8_imagen2.jpg",
+    "descripcion": "Adrenalina pura con el canotaje en el río Cañete y degustación de vinos.",
+    "incluye": ["Transporte", "Guía", "Canotaje básico"],
+    "no_incluye": ["Almuerzo", "Deportes extra (cuatrimotos)"],
+    "itinerario": ["06:00 AM - Salida", "10:00 AM - Canotaje", "01:00 PM - Almuerzo", "04:00 PM - Viñedos", "08:00 PM - Lima"]
+  }
+]
