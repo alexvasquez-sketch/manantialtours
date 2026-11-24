@@ -78,15 +78,15 @@
     </header>
 
     <!-- HERO CAROUSEL (Cabecera deslizable) -->
-    <div class="w-full bg-slate-50 pt-4 pb-2">
+     <div class="w-full bg-slate-50 pt-4 pb-2">
         <section class="w-full max-w-7xl mx-auto px-2 sm:px-4">
             <div class="relative rounded-3xl overflow-hidden shadow-lg bg-slate-900">
-                <!-- Contenedor deslizable con proporciones de cine -->
-                <div id="heroTrack" class="flex w-full aspect-[4/3] sm:aspect-[16/9] lg:aspect-[21/9] overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar">
+                <!-- Contenedor deslizable -->
+                <div id="heroTrack" class="flex w-full aspect-[4/3] sm:aspect-[16/9] lg:aspect-[21/9] overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar select-none">
                     
                     <!-- Slide 1 -->
-                    <div class="min-w-full h-full snap-center relative flex-shrink-0">
-                        <img src="assets/img/hyundai_h350.jpg" alt="Viaja a Churín" class="w-full h-full object-cover object-center" loading="lazy">
+                    <div class="w-full h-full flex-shrink-0 snap-center relative overflow-hidden">
+                        <img src="assets/img/hyundai_h350.jpg" alt="Viaja a Churín" draggable="false" class="w-full h-full object-cover object-center pointer-events-none" loading="lazy">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent flex flex-col items-center justify-center text-center px-4">
                             <h2 class="text-white text-2xl sm:text-4xl md:text-5xl font-extrabold mb-2 drop-shadow-lg">Viaja seguro a Churín</h2>
                             <p class="text-white text-sm sm:text-base md:text-xl font-semibold drop-shadow-md">Salidas diarias desde Óvalo Infantas</p>
@@ -94,8 +94,8 @@
                     </div>
 
                     <!-- Slide 2 -->
-                    <div class="min-w-full h-full snap-center relative flex-shrink-0">
-                        <img src="assets/img/dfsk_glory580.jpg" alt="Comodidad y confort" class="w-full h-full object-cover object-center" loading="lazy">
+                    <div class="w-full h-full flex-shrink-0 snap-center relative overflow-hidden">
+                        <img src="assets/img/dfsk_glory580.jpg" alt="Comodidad y confort" draggable="false" class="w-full h-full object-cover object-center pointer-events-none" loading="lazy">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent flex flex-col items-center justify-center text-center px-4">
                             <h2 class="text-white text-2xl sm:text-4xl md:text-5xl font-extrabold mb-2 drop-shadow-lg">Comodidad en cada viaje</h2>
                             <p class="text-white text-sm sm:text-base md:text-xl font-semibold drop-shadow-md">Unidades modernas para tu máximo confort</p>
@@ -103,7 +103,7 @@
                     </div>
 
                     <!-- Slide 3 -->
-                    <div class="min-w-full h-full snap-center relative flex-shrink-0 bg-slate-800">
+                    <div class="w-full h-full flex-shrink-0 snap-center relative overflow-hidden bg-slate-800">
                         <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
                             <h2 class="text-white text-2xl sm:text-4xl md:text-5xl font-extrabold mb-2 drop-shadow-lg">Compra tus pasajes aquí</h2>
                             <p class="text-white text-sm sm:text-base md:text-xl font-semibold drop-shadow-md">Selecciona tu horario y asiento favorito</p>
